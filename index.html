@@ -42,7 +42,7 @@
 						<dd>
 							<p>The basic structure of the slider expressed as, you guessed it, <code>HTML</code>.</p>
 							<img src="images/code1.png" title="To copy code, please see the JSFiddle above." />
-							<p>The <code>.container</code> class isn't needed. There's a way to do this without that pesky <code>#slider-overflow-wrapper</code> but in this example it's there.</p>
+							<p>The <code>.container</code> class isn't needed.</p>
 						</dd>
 					</dl>
 					<dl id="#style">
@@ -55,11 +55,11 @@
 								<li>
 								<p>Style the <code>ul#slider</code> and it's children like this</p>
 								<img src="images/code2.png" /> 
-								<p>Notice we've put <code>ul#slider</code> wide enough to stack four slides side by side inside of it. Because the slides are floated left, they'll natrually cosy up to each other. We know in advanced that this slider only needs to be four slides wide. It won't get any bigger or smaller than that. If you don't know the width, you'll have to target <code>ul#slider</code> on page load and stretch its width using Javascript.</p>
-								<p>Also notice that children of the <code>ul</code> that aren't <em>selected</em> have been dimmed down.</p>
+								<p>Notice we've built the slider wide enough to stack four slides side by side inside of it. Because the slides are floated left, they'll natrually cosy up to each other. We know in advanced that this slider only needs to be four slides wide. It won't get any bigger or smaller than that. If you don't know the width, you'll have to target <code>ul#slider</code> on page load and stretch its width using Javascript.</p>
+								<p>Also notice that children of the slider that aren't selected have been dimmed down.</p>
 								</li>
 								<li>
-									<p>Target the next and previous buttons. Position them and perhaps use a background image to style them. They are just absolutely positioned anchor tags contained within the container.</p>
+									<p>Lastly, target the next and previous buttons. Position them and perhaps use a background image to style them. They are just absolutely positioned anchor tags contained within the container.</p>
 									<img src="images/code3.png" /> 
 								</li>
 							</ol>
