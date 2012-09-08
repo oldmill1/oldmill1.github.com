@@ -138,8 +138,8 @@
 							<p>The <code>next.click()</code> and <code>prev.click()</code> basically do the same thing and should be refactored slightly to trim code lines but here are the three main things they both do: </p>
 							<ol>
 								<li>Don't do anything if something is already happening.</li>
-								<li>If the user tries to slide past the edge, do a little wobble. The wobble motion is refactored into <code>sct_woble( element, direction )</code> where the element is always the slider and the direction is either 'left' or 'right'.</li>
-								<li>Animate the slider, 493 to either the left or right, by tweaking the marglin-left property of the slider. 493 happens to be the width of the slide. This method only supports identically-sized images.</li>
+								<li>If the user tries to slide past an edge, do a little wobble to indicate tention. The wobble motion is refactored into <code>sct_woble( element, direction )</code> where the element is always the slider and the direction is either 'left' or 'right'.</li>
+								<li>Animate the slider 493 pixels to either the left or right, by tweaking the marglin-left property of the slider. 493 happens to be the width of the slide. This method only supports identically-sized images.</li>
 							</ol>
 						</dd>
 					</dl>
