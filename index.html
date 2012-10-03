@@ -9,6 +9,7 @@
 
     <!-- Le styles -->
     <link href="public/bootstrap.css" rel="stylesheet">
+    <link href="public/style.css" rel="stylesheet">
     <style>
       body {
         padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
@@ -45,6 +46,58 @@
     	<div class="row">
 				<h1 class="page-header"><a href="index.html">My Shitty Version&reg;</a>&nbsp;<small>By <a href="http://twitter.com/ankutax">@ankutax</a></small></h1>
 				<div class="span8">
+					<h2><a href="posts/how-to-work-with-images-wordpress.html">How to Work with Images in WordPress</a></h2>
+										<br />
+										<p>"How do I display images in WordPress" is a common problem faced by many beginner WordPress developers. In fact, the WordPress documentation hasn't done a good job exposing the right functions to use in this situation. In this post, I will show you how to display the image you want, 100% of the time!</p>
+										<p>The first thing you need to remember is that you can use <code>the_content()</code>, which prints the HTML of a post or page when it is called, including images inside <code>&lt;img /&gt;</code> tags. When using <code>the_content()</code>, we're handing control of the page flow to the theme author.</p>
+										<p>But that's usually not enough control for theme developers. Let's look at two more techniques. The first one is called the <em>Feature Image technique</em>, also known as "post thumbnails", and it lets post authors directly link a unique image with a post and lets theme developers use that image in the theme via a simple API call.</p>
+										<h3>Adding Support for Post Thumbnails</h3>
+										<div class="alert">
+										<p>
+											This function needs to be supported using <a href="http://codex.wordpress.org/Function_Reference/add_theme_support">add_theme_support</a></p> 
+<pre>&lt;?php 
+	 add_theme_support( 'post-thumbnails' );
+?></pre>
+										
+										</div>
+										<p>Now, edit a post. You will discover a link on the edit page that will let you upload an image as a Featured Image. Once you've finished uploading your image, open up index.php in your theme.</p>
+										<img class="left thumbnail" src="./images/feature-shot.png" alt="The WordPress Featured Image box" title="WordPress Featured Image" /> 
+										<div class="alert">
+										<p>To display the image in your theme, use the <a href="http://codex.wordpress.org/Function_Reference/the_post_thumbnail">the_post_thumbnail</a></p>
+										<pre>
+&lt;?php the_post_thumbnail('thumnail'); ?&gt;</pre>
+										</div>
+										<p>That will output the image you've uploaded via Featured Image. Try it on index.php <a href="http://codex.wordpress.org/The_Loop">inside a loop</a>. You might notice that we've passed an argument. That is the size argument. You can use the size argument to pass in a size keyword ("<em>thumnail</em>", "<em>small</em>", "<em>medium</em>", "<em>large</em>", "<em>full</em>", or "<em>custom</em>"), or a two-item array with the width and height, as integers.</p>
+										<p>I would recommend you go with option (a), i.e., use a size keyword. You don't have to use the keywords already provided as they might not be appropriate. Instead, create your own size keyword(s). I will show you how to do that now.</p>
+										<h3>Adding Custom Sizes to WordPress (Creating Custom Size Keywords)</h3>
+										<p>You can append your own custom size to the size keyword list that WordPress keeps. This is useful where the default sizes don't fit your theme. You may have a page that needs a 400 X 300 image. You can ensure that WordPress serves the right size, without re-sizing on page load, by having WordPress <strong>create the size for you on image upload</strong>. Everytime someone uploads in image on the back end, it will be resized into all the size keywords, including the default ones that shipped with WordPress. That's how WordPress knows what size to serve up when you request an image, even the Feature Image. </p>
+										<div class="alert">
+										<p>Use <a href="http://codex.wordpress.org/Function_Reference/add_image_size">add_image_size</a> to add a custom size</p>
+										<pre>
+&lt;?php add_image_size('BigImage', 3000, 1850, true); ?&gt;</pre>
+										</div>
+										<p>To recap, you can use <code>the_post_thumbnail</code> to display the Feature image and pass a size argument to display the correct size. You can add a custom size by adding it to the list of size keywords provided by WordPress.</p>
+										<p>The only thing left to do is to learn how to display <em>all</em> the images uploaded within a post, in the size we specify.</p>
+										<h3>Getting The Children</h3>
+										<p>Think of attached images as children of the post they're attached to. You can therefore get the children using the following snippet.</p>
+										<pre>
+	&lt;?php
+		$images =& get_children(array('post_type' => 'attachment', 'post_parent' => $post->ID));
+		if ( empty($images) ) {
+		} else {
+		 foreach ( $images as $attachment_id => $attachment ) {
+		  // i like using wp_get_attachment_image_src myself
+		  // echo wp_get_attachment_image( $attachment_id, 'full' );	
+		
+		  $image_array = wp_get_attachment_image_src( $attachment_id, 'full_view' ); 
+		  echo "&lt;img src='" . $image_array[0] . "' alt='foo' title='bar' />&lt;"; 
+		}
+	}?&gt;
+										</pre>
+										<p>The <a href="http://codex.wordpress.org/Function_Reference/wp_get_attachment_image">first statement</a> has been commented out. It's a bit easier to use. But if you want fine grain control over how the image turns out, use <a href="http://codex.wordpress.org/Function_Reference/wp_get_attachment_image_src">wp_get_attachment_image_src</a>.</p>
+										<h3>The End</h3>
+										<p>To sumarize, you now know how to display either all the images of a post, or just the Feature, and you know how to work with sizes. Thanks for reading.</p>
+					<hr />
 					<h2><a href="posts/google-play-slider.html">Making the Google Play slider</a></h2>
 					<img src="images/basic.png" /> 
 					<div class="alert alert-info">
@@ -161,7 +214,11 @@
 					</dl>
 				</div>
 				<div class="span4">
-				
+					<h3 class="page-header">Previously, on My Shitty Version&reg;</h3>
+					<ul>
+						<li><p><a href="posts/how-to-work-with-images-wordpress.html">How to Work with Images in WordPress</a></p></li>
+						<li><p><a href="posts/google-play-slider.html">Making the Google Play slider</a></p></li>
+					</ul>
 				</div>
 			</div>
 			<footer>
