@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>How To Work With Images in WordPress - My Shitty Version by @anutax</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Demonstrates how to display, format and resize images in WordPress using API, template tags.">
+    <meta name="author" content="Ankur Taxali">
+
+    <!-- Le styles -->
+    <link href="../public/bootstrap.css" rel="stylesheet">
+    <style>
+      body {
+        padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+      }
+      
+      .container img { 
+      	padding: 10px 0;
+      } 
+    </style>
+    <link href="../public/bootstrap-responsive.css" rel="stylesheet">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <script type="text/javascript">
+    
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-34671908-1']);
+      _gaq.push(['_trackPageview']);
+    
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    
+    </script>
+  </head>
+
+  <body>
+    <div class="container">
+    	<div class="row">
+				<h1 class="page-header"><a href="../index.html">My Shitty Version&reg;</a>&nbsp;<small>By <a href="http://twitter.com/ankutax">@ankutax</a></small></h1>
+				<div class="span8">
+					<h2>How to Work with Images in WordPress</h2>
+					<br />
+					<p>One of the most common problems you face working in WordPress is what to do about images. In fact, the WordPress API authors haven't done a good job exposing the right functions to use in this situation. In this post, I will show you how to display the image you want, 100% of the time!</p>
+					<p>The first thing you need to remember is that you can use <code>the_content()</code>, which will display HTML, including <code>&lt;img  /&gt;</code> tags. It will display images in the order than the post author inputted them, so theme designers often use it in the single page. When we use <code>the_content()</code>, we're handing control of the page flow to the theme author.</p>
+					<p>But that's usually not enough control. Let's look at two more techniques. The first one is called the <em>Feature Image technique</em>, and it lets post authors directly assosiate an image with a post. Then, you can use a template tag to display that image.</p>
+				</div>
+				<div class="span4">
+				
+				</div>
+			</div>
+			<footer>
+				<hr />
+				<p>All words on this page are &copy; <a href="https://plus.google.com/118158458198345356422/?rel=author">Ankur Taxali</a>2012. The code is free for everyone.</p>
+			</footer>
+    </div> <!-- /container -->
+  </body>
+</html>
+
