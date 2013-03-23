@@ -1,231 +1,60 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html>
   <head>
     <meta charset="utf-8">
-    <title>My Shitty Version by @anutax</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Technical tutorials and general essays on web and related technologies">
-    <meta name="author" content="ankur taxali">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Oldmill1.github.com by oldmill1</title>
 
-    <!-- Le styles -->
-    <link href="public/bootstrap.css" rel="stylesheet">
-    <link href="public/style.css" rel="stylesheet">
-    <style>
-      body {
-        padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
-      }
-      
-      .container img { 
-      	padding: 10px 0;
-      } 
-    </style> 
-    <link href="public/bootstrap-responsive.css" rel="stylesheet">
-
-    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <!--[if lt IE 9]>
-      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-  	<script type="text/javascript">
-  	
-  	  var _gaq = _gaq || [];
-  	  _gaq.push(['_setAccount', 'UA-34671908-1']);
-  	  _gaq.push(['_trackPageview']);
-  	
-  	  (function() {
-  	    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-  	    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-  	    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-  	  })();
-  	
-  	</script>
   </head>
-
   <body>
-  
-    <div class="container">
-    	<div class="row">
-				<h1 class="page-header"><a href="index.html">My Shitty Version&reg;</a>&nbsp;<small>By <a href="http://twitter.com/ankutax">@ankutax</a></small></h1>
-				<div class="span8">
-					<h2><a href="posts/how-to-work-with-images-wordpress.html">How to Work with Images in WordPress</a></h2>
-										<br />
-										<p>"How do I display images in WordPress" is a common problem faced by many beginner WordPress developers. In fact, the WordPress documentation hasn't done a good job exposing the right functions to use in this situation. In this post, I will show you how to display just one or all the images in your post, as well as show you how to serve dynamic sizes.</p>
-										<p>The first thing you need to remember is that you can use <code>the_content()</code>, which prints the HTML of a post or page when it is called, including images inside <code>&lt;img /&gt;</code> tags. When using <code>the_content()</code>, we're handing control of the page flow to the theme author.</p>
-										<p>But that's usually not enough control for theme developers. Let's look at two more techniques. The first one is called the <em>Feature Image technique</em>, also known as "post thumbnails", and it lets post authors directly link a unique image with a post and lets theme developers use that image in the theme via a simple API call.</p>
-										<h3>Adding Support for Post Thumbnails</h3>
-										<div class="alert">
-										<p>
-											This function needs to be supported using <a href="http://codex.wordpress.org/Function_Reference/add_theme_support">add_theme_support</a></p> 
-<pre>&lt;?php 
-	 add_theme_support( 'post-thumbnails' );
-?></pre>
-										
-										</div>
-										<p>Now, edit a post. You will discover a link on the edit page that will let you upload an image as a Featured Image. Once you've finished uploading your image, open up index.php in your theme.</p>
-										<img class="left thumbnail" src="./images/feature-shot.png" alt="The WordPress Featured Image box" title="WordPress Featured Image" /> 
-										<div class="alert">
-										<p>To display the image in your theme, use the <a href="http://codex.wordpress.org/Function_Reference/the_post_thumbnail">the_post_thumbnail</a></p>
-										<pre>
-&lt;?php the_post_thumbnail('thumnail'); ?&gt;</pre>
-										</div>
-										<p>That will output the image you've uploaded via Featured Image. Try it on index.php <a href="http://codex.wordpress.org/The_Loop">inside a loop</a>. You might notice that we've passed an argument. That is the size argument. You can use the size argument to pass in a size keyword ("<em>thumnail</em>", "<em>small</em>", "<em>medium</em>", "<em>large</em>", "<em>full</em>", or "<em>custom</em>"), or a two-item array with the width and height, as integers.</p>
-										<p>I would recommend you go with option (a), i.e., use a size keyword. You don't have to use the keywords already provided as they might not be appropriate. Instead, create your own size keyword(s). I will show you how to do that now.</p>
-										<h3>Adding Custom Sizes to WordPress (Creating Custom Size Keywords)</h3>
-										<p>You can append your own custom size to the size keyword list that WordPress keeps. This is useful where the default sizes don't fit your theme. You may have a page that needs a 400 X 300 image. You can ensure that WordPress serves the right size, without re-sizing on page load, by having WordPress <strong>create the size for you on image upload</strong>. Everytime someone uploads in image on the back end, it will be resized into all the size keywords, including the default ones that shipped with WordPress. That's how WordPress knows what size to serve up when you request an image, even the Feature Image. </p>
-										<div class="alert">
-										<p>Use <a href="http://codex.wordpress.org/Function_Reference/add_image_size">add_image_size</a> to add a custom size</p>
-										<pre>
-&lt;?php add_image_size('BigImage', 3000, 1850, true); ?&gt;</pre>
-										</div>
-										<p>To recap, you can use <code>the_post_thumbnail</code> to display the Feature image and pass a size argument to display the correct size. You can add a custom size by adding it to the list of size keywords provided by WordPress.</p>
-										<p>The only thing left to do is to learn how to display <em>all</em> the images uploaded within a post, in the size we specify.</p>
-										<h3>Getting The Children</h3>
-										<p>Think of attached images as children of the post they're attached to. You can therefore get the children using the following snippet.</p>
-										<pre>
-	&lt;?php
-		$images =& get_children(array('post_type' => 'attachment', 'post_parent' => $post->ID));
-		if ( empty($images) ) {
-		} else {
-		 foreach ( $images as $attachment_id => $attachment ) {
-		  // i like using wp_get_attachment_image_src myself
-		  // echo wp_get_attachment_image( $attachment_id, 'full' );	
-		
-		  $image_array = wp_get_attachment_image_src( $attachment_id, 'full_view' ); 
-		  echo "&lt;img src='" . $image_array[0] . "' alt='foo' title='bar' />&lt;"; 
-		}
-	}?&gt;
-										</pre>
-										<p>The <a href="http://codex.wordpress.org/Function_Reference/wp_get_attachment_image">first statement</a> has been commented out. It's a bit easier to use. But if you want fine grain control over how the image turns out, use <a href="http://codex.wordpress.org/Function_Reference/wp_get_attachment_image_src">wp_get_attachment_image_src</a>.</p>
-										<h3>The End</h3>
-										<p>To sumarize, you now know how to display either all the images of a post, or just the Feature, and you know how to work with sizes. Thanks for reading.</p>
-					<hr />
-					<h2><a href="posts/google-play-slider.html">Making the Google Play slider</a></h2>
-					<img src="images/basic.png" /> 
-					<div class="alert alert-info">
-					  <strong>Heads up!</strong> <a href="http://jsfiddle.net/ankurt/FWUqf/5/embedded/result/">Click here to view the demo in full screen.</a>
-					</div>
-					<iframe style="width: 100%; height: 300px" src="http://jsfiddle.net/ankurt/FWUqf/5/embedded/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
-					<hr />
-					<p>You've all seen this before. <a href="http://play.google.com">It's the Google Play slider</a>. (A crude mockup of it.) Anyway, here's how I built <em>my shitty version</em> using HTML (and Javascript).</p>
-					<dl id="#structure">
-						<dt>Step One: Structure</dt>
-						<dd>
-							<p>The basic structure of the slider expressed as, you guessed it, <code>HTML</code>.</p>
-							<img src="images/code1.png" title="To copy code, please see the JSFiddle above." />
-							<p>The <code>.container</code> class isn't required, but nice to have.</p>
-						</dd>
-					</dl>
-					<dl id="#style">
-						<dt>
-							Step Two: We're done with Structure, let's move on to Style. 
-						</dt>
-						<dd>
-							<ol>
-								<li>Give an <code>overflow:hidden</code> and <code>position:relative</code> to <code>#slider-overflow-wrapper</code></li>
-								<li>
-								<p>Style the <code>ul#slider</code> and it's children like this</p>
-								<img src="images/code2.png" /> 
-								<p>Notice we've built the slider wide enough to stack four slides side by side inside of it. Because the slides are floated left, they'll natrually cosy up to each other. We know in advanced that this slider only needs to be four slides wide. It won't get any bigger or smaller than that. If you don't know the width, you'll have to target <code>ul#slider</code> on page load and stretch its width using Javascript.</p>
-								<p>Also notice that children of the slider that aren't selected have been dimmed down.</p>
-								</li>
-								<li>
-									<p>Lastly, target the next and previous buttons. They are just absolutely positioned anchor tags contained within the container.</p>
-									<img src="images/code3.png" /> 
-								</li>
-							</ol>
-						</dd>
-					</dl>
-					<dl id="#structure">
-						<dt>Step Three: Javascript.</dt>
-						<dd>
-							<p>We have a jQuery based controller, so you need to include jQuery at the top of the page.</p>
-<pre>
-(function($) {
-	var slider = $("#slider"); 
-	var next = $("#slider-overflow-wrapper a[rel='next']"); 
-	var prev = $("#slider-overflow-wrapper a[rel='prev']"); 
-	
-	function sct_woble( element, direction ) { 
-		var o_pos = parseInt(slider.css("margin-left"));
-		if ( direction == 'right' ) { 
-			var n_pos = o_pos - 100;  
-		} else { 
-			var n_pos = o_pos + 100; 
-			console.log(n_pos); 
-		} 
-		slider.animate( 
-			{marginLeft: n_pos}, 
-			100, 
-			function() { 
-				slider.animate( {marginLeft: o_pos}, 500, function() {} );  
-			}
-		);
-	} 
-	
-	next.click( function() { 
-		if ( slider.is(':animated') ) { return false; }
-		
-		if ( $('#slider li:last-child').attr('class') == 'active' ) { 
-			sct_woble( slider, 'right' );  
-			return false; 
-		} 
-		
-		var curr_pos = parseInt(slider.css("margin-left")); 
-		var new_pos = curr_pos - 493; 
-		slider.animate( 
-			{marginLeft: new_pos}, 
-			400, 
-			function() { 
-				// move active to the next one
-				slider.find('li.active').removeClass('active').next().addClass('active');
-			}
-		); 
-	});  
-	
-	prev.click( function() { 
-		if ( slider.is(':animated') ) { return false; }
-		
-		if ( $('#slider li:first-child').attr('class') == 'active' ) { 
-			sct_woble( slider, 'left' );  
-			return false;
-		} 
-		
-		var curr_pos = parseInt(slider.css("margin-left")); 
-		var new_pos = curr_pos + 493; 
-		
-		slider.animate( 
-			{marginLeft: new_pos}, 
-			400, 
-			function() { 
-				// move active to the next one
-				slider.find('li.active').removeClass('active').prev().addClass('active');
-			}
-		); 
-	});
-  
-})( jQuery );
-</pre>
-							<p>The <code>next.click()</code> and <code>prev.click()</code> basically do the same thing and should be refactored slightly to trim code lines but here are the three main things they both do: </p>
-							<ol>
-								<li>Don't do anything if something is already happening.</li>
-								<li>If the user tries to slide past an edge, do a little wobble to indicate tention. The wobble motion is refactored into <code>sct_woble( element, direction )</code> where the element is always the slider and the direction is either 'left' or 'right'.</li>
-								<li>Animate the slider 493 pixels to either the left or right, by tweaking the marglin-left property of the slider. 493 happens to be the width of the slide. This method only supports identically-sized images.</li>
-							</ol>
-						</dd>
-					</dl>
-				</div>
-				<div class="span4">
-					<h3 class="page-header">Previously, on My Shitty Version&reg;</h3>
-					<ul>
-						<li><p><a href="posts/how-to-work-with-images-wordpress.html">How to Work with Images in WordPress</a></p></li>
-						<li><p><a href="posts/google-play-slider.html">Making the Google Play slider</a></p></li>
-					</ul>
-				</div>
-			</div>
-			<footer>
-				<hr />
-				<p>All words on this page are &copy; <a href="https://plus.google.com/118158458198345356422/?rel=author">Ankur Taxali</a>2012. The code is free for everyone.</p>
-			</footer>
-    </div> <!-- /container -->
+    <div class="wrapper">
+      <header>
+        <h1>Oldmill1.github.com</h1>
+        <p></p>
+
+
+        <p class="view"><a href="https://github.com/oldmill1">View My GitHub Profile</a></p>
+
+      </header>
+      <section>
+        <h3>Welcome to GitHub Pages.</h3>
+
+<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here using GitHub Flavored Markdown, select a template crafted by a designer, and publish. After your page is generated, you can check out the new branch:</p>
+
+<pre><code>$ cd your_repo_root/repo_name
+$ git fetch origin
+$ git checkout gh-pages
+</code></pre>
+
+<p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
+
+<h3>Designer Templates</h3>
+
+<p>We've crafted some handsome templates for you to use. Go ahead and continue to layouts to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved if it remained markdown format.</p>
+
+<h3>Rather Drive Stick?</h3>
+
+<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator written by our own Tom Preston-Werner. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
+
+<h3>Authors and Contributors</h3>
+
+<p>You can <a href="https://github.com/blog/821" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor's GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
+
+<h3>Support or Contact</h3>
+
+<p>Having trouble with Pages? Check out the documentation at <a href="http://help.github.com/pages">http://help.github.com/pages</a> or contact <a href="mailto:support@github.com">support@github.com</a> and we’ll help you sort it out.</p>
+      </section>
+      <footer>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
   </body>
 </html>
-
