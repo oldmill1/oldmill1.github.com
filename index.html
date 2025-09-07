@@ -3,90 +3,200 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>hello</title>
+    <title>Ankur Taxali</title>
     <style>
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'JetBrains Mono', monospace;
             line-height: 1.6;
-            color: #333;
-            max-width: 800px;
+            color: #e1e8ed;
+            background-color: #0d1117;
+            max-width: 900px;
             margin: 0 auto;
             padding: 2rem;
+            min-height: 100vh;
         }
+        
         h1 {
-            color: #2c3e50;
-            border-bottom: 2px solid #3498db;
+            color: #f0f6fc;
+            border-bottom: 2px solid #30a14e;
             padding-bottom: 0.5rem;
+            margin-bottom: 2rem;
+            font-size: 2.5rem;
+            font-weight: 600;
         }
+        
         h2 {
-            color: #34495e;
-            margin-top: 2rem;
+            color: #58a6ff;
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            font-weight: 500;
         }
+        
+        section {
+            margin: 2.5rem 0;
+            padding: 1.5rem;
+            background-color: #161b22;
+            border-radius: 8px;
+            border: 1px solid #30363d;
+        }
+        
         ol, ul {
             margin: 1rem 0;
+            padding-left: 1.5rem;
         }
+        
         li {
-            margin: 0.5rem 0;
+            margin: 0.8rem 0;
+            line-height: 1.7;
         }
+        
+        strong {
+            color: #f0f6fc;
+            font-weight: 600;
+        }
+        
         a {
-            color: #3498db;
+            color: #58a6ff;
             text-decoration: none;
+            transition: color 0.2s ease;
         }
+        
         a:hover {
+            color: #79c0ff;
             text-decoration: underline;
         }
-        section {
-            margin: 2rem 0;
+        
+        br {
+            line-height: 2;
         }
+        
+        /* Add some visual hierarchy */
+        li strong {
+            display: inline-block;
+            min-width: 120px;
+        }
+        
+        /* Improve spacing between list items */
+        ol > li {
+            margin-bottom: 1.5rem;
+            padding: 0.5rem 0;
+        }
+        
+        /* Style for nested content in list items */
+        li > br:last-child {
+            display: none;
+        }
+        
+        /* Header image styling */
+        .header-image {
+            text-align: center;
+            margin: 2rem 0 3rem 0;
+        }
+        
+        .header-image img {
+            max-width: 400px;
+            width: 100%;
+            height: auto;
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease;
+        }
+        
+        .header-image img:hover {
+            transform: scale(1.02);
+        }
+    
     </style>
 </head>
 <body>
-    <h1>hello</h1>
+    <h1>Ankur Taxali</h1>
+    <div class="header-image"><img src="assets/snakes.webp" alt="snakes"></div>
     <section>
+<h2>About</h2>
+<section>
+<h2>Name</h2>
+Ankur Taxali 2</section>
+<section>
+<h2>Bio</h2>
+Hey There Building tools that make developers' lives easier</section>
+</section>
+<section>
 <h2>Projects</h2>
 <ol>
-<li><strong>Name:</strong> douglas<br>
-<strong>Url:</strong> <a href="https://oldmill1.github.io/douglas/">https://oldmill1.github.io/douglas/</a><br>
-<strong>Description:</strong> chain together multiple agents (a work in progress)<br>
-</li>
 <li><strong>Name:</strong> cmtmsg<br>
-<strong>Url:</strong> <a href="https://oldmill1.github.io/cmtmsg/">https://oldmill1.github.io/cmtmsg/</a><br>
-<strong>Description:</strong> auto-mates your commit workflow<br>
+<strong>Url:</strong> <a href="https://github.com/oldmill1/cmtmsg">https://github.com/oldmill1/cmtmsg</a><br>
+<strong>Description:</strong> AI-assisted commit messages<br>
+<strong>Status:</strong> active<br>
 </li>
-<li><strong>Name:</strong> fitbod-web<br>
-<strong>Url:</strong> <a href="https://oldmill1.github.io/fitbod-web/">https://oldmill1.github.io/fitbod-web/</a><br>
-<strong>Description:</strong> a web-app for fellow Fitbod-ers<br>
+<li><strong>Name:</strong> douglas<br>
+<strong>Url:</strong> <a href="https://github.com/oldmill1/douglas">https://github.com/oldmill1/douglas</a><br>
+<strong>Description:</strong> Chain AI's together. The response is the input.<br>
+<strong>Status:</strong> experimental<br>
 </li>
 <li><strong>Name:</strong> svelte-pi<br>
-<strong>Url:</strong> <a href="https://oldmill1.github.io/svelte-pi/">https://oldmill1.github.io/svelte-pi/</a><br>
-<strong>Description:</strong> quickly spin-up svelte-kit apps in your terminal<br>
+<strong>Url:</strong> <a href="https://github.com/oldmill1/svelte-pi">https://github.com/oldmill1/svelte-pi</a><br>
+<strong>Description:</strong> Boilerplate generator for Svelte fans<br>
+<strong>Status:</strong> complete<br>
 </li>
 <li><strong>Name:</strong> sssstatic<br>
 <strong>Url:</strong> <a href="https://github.com/oldmill1/sssstatic">https://github.com/oldmill1/sssstatic</a><br>
-<strong>Description:</strong> python-flavored ssg<br>
+<strong>Description:</strong> Easiest way to make static sites<br>
+<strong>Status:</strong> active<br>
+</li>
+<li><strong>Name:</strong> fitbod-web<br>
+<strong>Url:</strong> <a href="https://github.com/oldmill1/fitbod-web">https://github.com/oldmill1/fitbod-web</a><br>
+<strong>Description:</strong> Unfinished Fitbot fan project<br>
+<strong>Status:</strong> on hold<br>
 </li>
 </ol>
 </section>
 <section>
-<h2>About</h2>
+<h2>Skills</h2>
 <section>
-<h2>Bio</h2>
-I build tools and web applications that make development workflows smoother.</section>
-<section>
-<h2>Location</h2>
-Building things on the internet</section>
-<section>
-<h2>Contact</h2>
-<a href="https://github.com/oldmill1">https://github.com/oldmill1</a></section>
+<h2>Languages</h2>
+<ol>
+<li>Python (automation and AI tools)</li>
+<li>TypeScript (when types matter)</li>
+<li>Shell (because automation)</li>
+<li>JavaScript (for the web stuff)</li>
+</ol>
 </section>
 <section>
-<h2>Skills</h2>
+<h2>Tools</h2>
 <ol>
-<li>Python</li>
-<li>JavaScript</li>
-<li>Svelte</li>
-<li>Static Site Generation</li>
-<li>Developer Tools</li>
+<li>Git (obviously)</li>
+<li>AI/ML APIs</li>
+<li>Static site generators</li>
+<li>Developer workflow tools</li>
+</ol>
+</section>
+</section>
+<section>
+<h2>Contact</h2>
+<section>
+<h2>Email</h2>
+ataxali@gmail.com</section>
+<section>
+<h2>Github</h2>
+<a href="https://github.com/oldmill1">https://github.com/oldmill1</a></section>
+<section>
+<h2>Website</h2>
+<a href="https://oldmill1.github.io/">https://oldmill1.github.io/</a></section>
+<section>
+<h2>Company</h2>
+@gadventures</section>
+<section>
+<h2>Location</h2>
+Toronto</section>
+</section>
+<section>
+<h2>Fun Facts</h2>
+<ol>
+<li>Works at G Adventures in Toronto and the world</li>
+<li>Builds things that save time and money</li>
+<li>Enjoys teaching and spreading the word</li>
+<li>Believes in step-by-step approaches to everything</li>
 </ol>
 </section>
 
