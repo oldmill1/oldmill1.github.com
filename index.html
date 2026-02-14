@@ -3,29 +3,47 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Ankur Taxali — Resume" />
+  <meta name="description" content="Ankur Taxali" />
   <title>Ankur Taxali</title>
   <style>
     :root{
-      --bg:#0b0f14;
-      --panel:#0f1620;
-      --text:#e6edf3;
-      --muted:#9aa4b2;
-      --accent:#7dd3fc;
-      --border:#1f2a37;
+      /* slate/terminal-ish */
+      --bg:#0b1220;
+      --panel:#0f172a;
+      --text:#e2e8f0;
+      --muted:#94a3b8;
+      --accent:#22c55e;
+      --border:#334155;
     }
     *{box-sizing:border-box}
     body{
       margin:0;
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
-      background:linear-gradient(180deg, var(--bg), #070a0f);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      background:linear-gradient(180deg, var(--bg), #070a12);
       color:var(--text);
       line-height:1.5;
     }
     a{color:var(--accent); text-decoration:none}
     a:hover{text-decoration:underline}
 
-    .wrap{max-width:900px; margin:0 auto; padding:48px 20px}
+    .wrap{max-width:900px; margin:0 auto; padding:48px 20px; position:relative}
+    /* fake-terminal scanlines (subtle) */
+    .wrap::before{
+      content:"";
+      pointer-events:none;
+      position:fixed;
+      inset:0;
+      background:repeating-linear-gradient(
+        to bottom,
+        rgba(255,255,255,0.03) 0px,
+        rgba(255,255,255,0.03) 1px,
+        rgba(0,0,0,0) 3px,
+        rgba(0,0,0,0) 6px
+      );
+      mix-blend-mode:overlay;
+      opacity:0.22;
+    }
+
     header{
       display:flex;
       align-items:flex-start;
@@ -34,29 +52,28 @@
       padding:24px;
       border:1px solid var(--border);
       border-radius:16px;
-      background:rgba(15,22,32,0.8);
-      backdrop-filter: blur(6px);
+      background:rgba(15,23,42,0.92);
     }
-    h1{margin:0; font-size:34px; letter-spacing:-0.02em}
+    h1{margin:0; font-size:32px; letter-spacing:-0.02em}
     .tagline{margin-top:8px; color:var(--muted)}
     .meta{display:flex; flex-direction:column; gap:8px; text-align:right; color:var(--muted); font-size:14px}
-    .pill{
-      display:inline-block;
-      padding:6px 10px;
-      border:1px solid var(--border);
-      border-radius:999px;
-      font-size:12px;
-      color:var(--muted);
-    }
 
     main{margin-top:18px; display:grid; gap:14px}
     section{
       padding:18px 20px;
       border:1px solid var(--border);
       border-radius:16px;
-      background:rgba(15,22,32,0.55);
+      background:rgba(15,23,42,0.72);
     }
-    h2{margin:0 0 10px 0; font-size:14px; letter-spacing:0.14em; text-transform:uppercase; color:var(--muted)}
+
+    h2{
+      margin:0 0 10px 0;
+      font-size:12px;
+      letter-spacing:0.12em;
+      text-transform:uppercase;
+      color:var(--muted);
+    }
+    h2::before{content:"$ "; color:var(--accent);}
 
     .grid{display:grid; grid-template-columns: 1fr 1fr; gap:14px}
     @media (max-width: 720px){
@@ -74,7 +91,6 @@
       body{background:white; color:black}
       header, section{background:white; border-color:#ddd}
       a{color:#0366d6}
-      .pill{border-color:#ddd}
     }
   </style>
 </head>
@@ -83,8 +99,7 @@
     <header>
       <div>
         <h1>Ankur Taxali</h1>
-        <div class="tagline">Builder. Software. Automations. Small tools that compound.</div>
-        <div style="margin-top:12px" class="pill">Resume-style landing page</div>
+        <div class="tagline">builder · software · automation · small tools that compound</div>
       </div>
       <div class="meta">
         <div>Toronto, Canada</div>
@@ -97,8 +112,7 @@
       <section>
         <h2>Summary</h2>
         <div class="small">
-          This is a simple static page (plain HTML + CSS). If you want, we can later add a real bio,
-          work history, and education.
+          Builder focused on practical tools, automation, and developer workflow improvements.
         </div>
       </section>
 
@@ -106,21 +120,19 @@
         <section>
           <h2>Recent private repos (last 10)</h2>
           <ul>
-            <li>wealth-planner</li>
-            <li>wealth_on_rails</li>
-            <li>little-wins</li>
-            <li>genie-service</li>
-            <li>travel-planner</li>
-            <li>openclaw-workspace-fitness</li>
-            <li>openclaw-workspace-software-dev</li>
-            <li>openclaw-workspace</li>
-            <li>manuscriptos</li>
-            <li>trainer</li>
+            <li><strong>Wealth Planner</strong> <span class="small">— Get back on track.</span></li>
+            <li><strong>Wealth on Rails</strong> <span class="small">— Wealth Planner written in Rails; abandoned.</span></li>
+            <li><strong>Little Wins</strong> <span class="small">— Previous name for Wealth Planner; didn’t work out.</span></li>
+            <li><strong>Travel Planner</strong></li>
+            <li><strong>OpenClaw Workspace Fitness</strong></li>
+            <li><strong>OpenClaw Workspace Software Dev</strong></li>
+            <li><strong>OpenClaw Workspace</strong> <span class="small">— AKA “Mr. Perfect”.</span></li>
+            <li><strong>Manuscriptos</strong> <span class="small">— A novel writer / Mac OS 9 emulator / life hack.</span></li>
           </ul>
         </section>
 
         <section>
-          <h2>Stack (placeholder)</h2>
+          <h2>Stack</h2>
           <ul>
             <li>TypeScript / Node</li>
             <li>Python</li>
@@ -136,13 +148,13 @@
       <section>
         <h2>Contact</h2>
         <div class="small">
-          If you want an email link or socials here, tell me what to include.
+          Email available on request.
         </div>
       </section>
     </main>
 
     <footer>
-      Built as a single static file. No build step.
+      © Ankur Taxali.
     </footer>
   </div>
 </body>
