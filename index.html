@@ -1,204 +1,149 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ankur Taxali</title>
-    <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'JetBrains Mono', monospace;
-            line-height: 1.6;
-            color: #e1e8ed;
-            background-color: #0d1117;
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 2rem;
-            min-height: 100vh;
-        }
-        
-        h1 {
-            color: #f0f6fc;
-            border-bottom: 2px solid #30a14e;
-            padding-bottom: 0.5rem;
-            margin-bottom: 2rem;
-            font-size: 2.5rem;
-            font-weight: 600;
-        }
-        
-        h2 {
-            color: #58a6ff;
-            margin-top: 2.5rem;
-            margin-bottom: 1rem;
-            font-size: 1.5rem;
-            font-weight: 500;
-        }
-        
-        section {
-            margin: 2.5rem 0;
-            padding: 1.5rem;
-            background-color: #161b22;
-            border-radius: 8px;
-            border: 1px solid #30363d;
-        }
-        
-        ol, ul {
-            margin: 1rem 0;
-            padding-left: 1.5rem;
-        }
-        
-        li {
-            margin: 0.8rem 0;
-            line-height: 1.7;
-        }
-        
-        strong {
-            color: #f0f6fc;
-            font-weight: 600;
-        }
-        
-        a {
-            color: #58a6ff;
-            text-decoration: none;
-            transition: color 0.2s ease;
-        }
-        
-        a:hover {
-            color: #79c0ff;
-            text-decoration: underline;
-        }
-        
-        br {
-            line-height: 2;
-        }
-        
-        /* Add some visual hierarchy */
-        li strong {
-            display: inline-block;
-            min-width: 120px;
-        }
-        
-        /* Improve spacing between list items */
-        ol > li {
-            margin-bottom: 1.5rem;
-            padding: 0.5rem 0;
-        }
-        
-        /* Style for nested content in list items */
-        li > br:last-child {
-            display: none;
-        }
-        
-        /* Header image styling */
-        .header-image {
-            text-align: center;
-            margin: 2rem 0 3rem 0;
-        }
-        
-        .header-image img {
-            max-width: 400px;
-            width: 100%;
-            height: auto;
-            border-radius: 12px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-            transition: transform 0.3s ease;
-        }
-        
-        .header-image img:hover {
-            transform: scale(1.02);
-        }
-    
-    </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Ankur Taxali — Resume" />
+  <title>Ankur Taxali</title>
+  <style>
+    :root{
+      --bg:#0b0f14;
+      --panel:#0f1620;
+      --text:#e6edf3;
+      --muted:#9aa4b2;
+      --accent:#7dd3fc;
+      --border:#1f2a37;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      background:linear-gradient(180deg, var(--bg), #070a0f);
+      color:var(--text);
+      line-height:1.5;
+    }
+    a{color:var(--accent); text-decoration:none}
+    a:hover{text-decoration:underline}
+
+    .wrap{max-width:900px; margin:0 auto; padding:48px 20px}
+    header{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:24px;
+      padding:24px;
+      border:1px solid var(--border);
+      border-radius:16px;
+      background:rgba(15,22,32,0.8);
+      backdrop-filter: blur(6px);
+    }
+    h1{margin:0; font-size:34px; letter-spacing:-0.02em}
+    .tagline{margin-top:8px; color:var(--muted)}
+    .meta{display:flex; flex-direction:column; gap:8px; text-align:right; color:var(--muted); font-size:14px}
+    .pill{
+      display:inline-block;
+      padding:6px 10px;
+      border:1px solid var(--border);
+      border-radius:999px;
+      font-size:12px;
+      color:var(--muted);
+    }
+
+    main{margin-top:18px; display:grid; gap:14px}
+    section{
+      padding:18px 20px;
+      border:1px solid var(--border);
+      border-radius:16px;
+      background:rgba(15,22,32,0.55);
+    }
+    h2{margin:0 0 10px 0; font-size:14px; letter-spacing:0.14em; text-transform:uppercase; color:var(--muted)}
+
+    .grid{display:grid; grid-template-columns: 1fr 1fr; gap:14px}
+    @media (max-width: 720px){
+      header{flex-direction:column}
+      .meta{text-align:left}
+      .grid{grid-template-columns:1fr}
+    }
+
+    ul{margin:0; padding-left:18px}
+    li{margin:8px 0}
+    .small{color:var(--muted); font-size:14px}
+
+    footer{margin-top:28px; color:var(--muted); font-size:13px; text-align:center}
+    @media print{
+      body{background:white; color:black}
+      header, section{background:white; border-color:#ddd}
+      a{color:#0366d6}
+      .pill{border-color:#ddd}
+    }
+  </style>
 </head>
 <body>
-    <h1>Ankur Taxali</h1>
-    <div class="header-image"><img src="assets/snakes.webp" alt="snakes"></div>
-    <section>
-<h2>About</h2>
-<section>
-<h2>Name</h2>
-Ankur Taxali 2</section>
-<section>
-<h2>Bio</h2>
-Hey There Building tools that make developers' lives easier</section>
-</section>
-<section>
-<h2>Projects</h2>
-<ol>
-<li><strong>Name:</strong> cmtmsg<br>
-<strong>Url:</strong> <a href="https://github.com/oldmill1/cmtmsg">https://github.com/oldmill1/cmtmsg</a><br>
-<strong>Description:</strong> AI-assisted commit messages<br>
-<strong>Status:</strong> active<br>
-</li>
-<li><strong>Name:</strong> douglas<br>
-<strong>Url:</strong> <a href="https://github.com/oldmill1/douglas">https://github.com/oldmill1/douglas</a><br>
-<strong>Description:</strong> Chain AI's together. The response is the input.<br>
-<strong>Status:</strong> experimental<br>
-</li>
-<li><strong>Name:</strong> svelte-pi<br>
-<strong>Url:</strong> <a href="https://github.com/oldmill1/svelte-pi">https://github.com/oldmill1/svelte-pi</a><br>
-<strong>Description:</strong> Boilerplate generator for Svelte fans<br>
-<strong>Status:</strong> complete<br>
-</li>
-<li><strong>Name:</strong> sssstatic<br>
-<strong>Url:</strong> <a href="https://github.com/oldmill1/sssstatic">https://github.com/oldmill1/sssstatic</a><br>
-<strong>Description:</strong> Easiest way to make static sites<br>
-<strong>Status:</strong> active<br>
-</li>
-<li><strong>Name:</strong> fitbod-web<br>
-<strong>Url:</strong> <a href="https://github.com/oldmill1/fitbod-web">https://github.com/oldmill1/fitbod-web</a><br>
-<strong>Description:</strong> Unfinished Fitbot fan project<br>
-<strong>Status:</strong> on hold<br>
-</li>
-</ol>
-</section>
-<section>
-<h2>Skills</h2>
-<section>
-<h2>Languages</h2>
-<ol>
-<li>Python (automation and AI tools)</li>
-<li>TypeScript (when types matter)</li>
-<li>Shell (because automation)</li>
-<li>JavaScript (for the web stuff)</li>
-</ol>
-</section>
-<section>
-<h2>Tools</h2>
-<ol>
-<li>Git (obviously)</li>
-<li>AI/ML APIs</li>
-<li>Static site generators</li>
-<li>Developer workflow tools</li>
-</ol>
-</section>
-</section>
-<section>
-<h2>Contact</h2>
-<section>
-<h2>Email</h2>
-ataxali@gmail.com</section>
-<section>
-<h2>Github</h2>
-<a href="https://github.com/oldmill1">https://github.com/oldmill1</a></section>
-<section>
-<h2>Website</h2>
-<a href="https://oldmill1.github.io/">https://oldmill1.github.io/</a></section>
-<section>
-<h2>Company</h2>
-@gadventures</section>
-<section>
-<h2>Location</h2>
-Toronto</section>
-</section>
-<section>
-<h2>Fun Facts</h2>
-<ol>
-<li>Works at G Adventures in Toronto and the world</li>
-<li>Builds things that save time and money</li>
-<li>Enjoys teaching and spreading the word</li>
-<li>Believes in step-by-step approaches to everything</li>
-</ol>
-</section>
+  <div class="wrap">
+    <header>
+      <div>
+        <h1>Ankur Taxali</h1>
+        <div class="tagline">Builder. Software. Automations. Small tools that compound.</div>
+        <div style="margin-top:12px" class="pill">Resume-style landing page</div>
+      </div>
+      <div class="meta">
+        <div>Toronto, Canada</div>
+        <div><a href="https://github.com/oldmill1">github.com/oldmill1</a></div>
+        <div class="small">(repo links intentionally omitted)</div>
+      </div>
+    </header>
 
+    <main>
+      <section>
+        <h2>Summary</h2>
+        <div class="small">
+          This is a simple static page (plain HTML + CSS). If you want, we can later add a real bio,
+          work history, and education.
+        </div>
+      </section>
+
+      <div class="grid">
+        <section>
+          <h2>Recent private repos (last 10)</h2>
+          <ul>
+            <li>wealth-planner</li>
+            <li>wealth_on_rails</li>
+            <li>little-wins</li>
+            <li>genie-service</li>
+            <li>travel-planner</li>
+            <li>openclaw-workspace-fitness</li>
+            <li>openclaw-workspace-software-dev</li>
+            <li>openclaw-workspace</li>
+            <li>manuscriptos</li>
+            <li>trainer</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Stack (placeholder)</h2>
+          <ul>
+            <li>TypeScript / Node</li>
+            <li>Python</li>
+            <li>Shell automation</li>
+            <li>Git + GitHub workflows</li>
+          </ul>
+          <div class="small" style="margin-top:10px">
+            Tell me what you actually want here and I’ll tailor it.
+          </div>
+        </section>
+      </div>
+
+      <section>
+        <h2>Contact</h2>
+        <div class="small">
+          If you want an email link or socials here, tell me what to include.
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      Built as a single static file. No build step.
+    </footer>
+  </div>
 </body>
 </html>
