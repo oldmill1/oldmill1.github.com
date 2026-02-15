@@ -3,46 +3,57 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Ankur Taxali" />
+  <meta name="description" content="ankur.tax" />
   <title>ankur.tax</title>
-
-  <!-- jQuery + jQuery Terminal (no build step; CDN) -->
-  <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery.terminal@2.40.2/css/jquery.terminal.min.css" />
-  <script src="https://cdn.jsdelivr.net/npm/jquery.terminal@2.40.2/js/jquery.terminal.min.js"></script>
-
   <style>
     :root{
-      --bg:#0b1220;
-      --panel:#0f172a;
-      --text:#e2e8f0;
-      --muted:#94a3b8;
-      --accent:#22c55e;
-      --border:#334155;
+      /* pale CRT-ish palette */
+      --bg:#05070b;
+      --bg2:#070b12;
+      --panel:#071018;
+      --text:#d7ffe0;
+      --muted:#9ed0b0;
+      --accent:#9dffb5;
+      --border:#1a3a2a;
+      --glow: 0 0 10px rgba(157,255,181,0.18);
     }
+
     *{box-sizing:border-box}
     html, body{height:100%}
     body{
       margin:0;
-      overflow:hidden; /* no page scrollbars */
+      overflow:hidden; /* no page scroll */
       font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-      background:linear-gradient(180deg, var(--bg), #070a12);
+      background: radial-gradient(1200px 700px at 50% 10%, #091422 0%, var(--bg) 60%),
+                  linear-gradient(180deg, var(--bg2), var(--bg));
       color:var(--text);
     }
 
-    /* full-viewport terminal container */
-    #term{
+    /* Terminal fills viewport */
+    #crt{
       height:100vh;
       width:100vw;
-      padding:16px;
+      padding:18px;
     }
 
-    /* fake scanlines (subtle) */
-    body::before{
+    #screen{
+      height: calc(100vh - 36px);
+      width: 100%;
+      border:1px solid var(--border);
+      border-radius: 18px;
+      background: rgba(7,16,24,0.72);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.55);
+      position:relative;
+      overflow:hidden;
+    }
+
+    /* CRT effects */
+    #screen::before{
+      /* scanlines */
       content:"";
-      pointer-events:none;
-      position:fixed;
+      position:absolute;
       inset:0;
+      pointer-events:none;
       background:repeating-linear-gradient(
         to bottom,
         rgba(255,255,255,0.03) 0px,
@@ -50,128 +61,253 @@
         rgba(0,0,0,0) 3px,
         rgba(0,0,0,0) 6px
       );
-      mix-blend-mode:overlay;
       opacity:0.16;
+      mix-blend-mode:overlay;
+    }
+    #screen::after{
+      /* vignette + subtle glare */
+      content:"";
+      position:absolute;
+      inset:-2px;
+      pointer-events:none;
+      background:
+        radial-gradient(900px 520px at 50% 20%, rgba(157,255,181,0.05), rgba(0,0,0,0.0) 60%),
+        radial-gradient(1200px 900px at 50% 50%, rgba(0,0,0,0) 55%, rgba(0,0,0,0.55) 100%),
+        linear-gradient(135deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.00) 35%);
+      opacity:0.85;
     }
 
-    /* terminal theme overrides */
-    .terminal, .cmd, .terminal-output{
-      font-family: inherit;
-      font-size: 14px;
-      line-height: 1.55;
+    /* Content area inside screen */
+    #viewport{
+      position:absolute;
+      inset:0;
+      padding:18px 18px 14px 18px;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
     }
 
-    .terminal {
-      --color: var(--text);
-      --background: transparent;
-      --link-color: var(--accent);
-      height: calc(100vh - 32px); /* account for #term padding */
-      width: 100%;
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      background: rgba(15,23,42,0.72);
-      box-shadow: 0 10px 40px rgba(0,0,0,0.28);
-    }
-
-    .terminal .prompt, .terminal .prompt span{ color: var(--accent); }
-    .terminal a { color: var(--accent); }
-
-    /* keep terminal output scrollable, not the page */
-    .terminal .terminal-output{
+    #output{
+      flex:1;
       overflow:auto;
+      padding-right:6px;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(157,255,181,0.25) transparent;
+      text-shadow: var(--glow);
+    }
+
+    /* WebKit scrollbars */
+    #output::-webkit-scrollbar{ width:10px; }
+    #output::-webkit-scrollbar-track{ background:transparent; }
+    #output::-webkit-scrollbar-thumb{ background: rgba(157,255,181,0.18); border-radius: 999px; border: 2px solid transparent; background-clip: content-box; }
+
+    .line{white-space:pre-wrap; word-break:break-word; margin:0 0 6px 0;}
+    .muted{color:var(--muted)}
+    .err{color:#ffb4b4}
+
+    a{color:var(--accent); text-decoration:underline; text-underline-offset: 2px;}
+
+    #promptRow{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      border-top: 1px dashed rgba(26,58,42,0.7);
+      padding-top:10px;
+      text-shadow: var(--glow);
+    }
+
+    #prompt{
+      color:var(--accent);
+      min-width: 44px;
+    }
+
+    #cmd{
+      flex:1;
+      border:none;
+      outline:none;
+      background:transparent;
+      color:var(--text);
+      font: inherit;
+      caret-color: var(--accent);
+      text-shadow: var(--glow);
+    }
+
+    /* slight curvature illusion */
+    #screen{
+      transform: perspective(1400px) rotateX(0.2deg);
     }
 
     @media (max-width: 720px){
-      #term{padding:10px;}
-      .terminal{height: calc(100vh - 20px); border-radius: 12px;}
+      #crt{padding:10px}
+      #screen{height: calc(100vh - 20px); border-radius: 14px;}
+      #viewport{padding:14px 14px 12px 14px}
     }
   </style>
 </head>
 <body>
-  <div id="term"></div>
+  <div id="crt">
+    <div id="screen">
+      <div id="viewport">
+        <div id="output" aria-live="polite"></div>
+        <div id="promptRow">
+          <div id="prompt">C:\&gt;</div>
+          <input id="cmd" type="text" autocomplete="off" spellcheck="false" autofocus />
+        </div>
+      </div>
+    </div>
+  </div>
 
   <script>
-    (function() {
+    (function(){
+      const output = document.getElementById('output');
+      const cmd = document.getElementById('cmd');
+
       const DATA = {
         name: 'Ankur Taxali',
         location: 'Toronto, Canada',
         github: 'https://github.com/oldmill1',
+        blog: 'https://ankur.tax/blog/',
         about: [
           'builder · software · automation',
           'focused on practical tools and developer workflow improvements.'
         ],
         repos: [
-          { name: 'Wealth Planner', note: 'IDE-based budgeting tool.' },
-          { name: 'Wealth on Rails', note: 'Wealth Planner written in Rails; abandoned.' },
-          { name: 'Little Wins', note: "Previous name for Wealth Planner; didn’t work out." },
-          { name: 'OpenClaw Workspace', note: 'AKA “Mr. Perfect”.' },
-          { name: 'Manuscriptos', note: 'A novel writer / Mac OS 9 emulator / life hack.' }
-        ],
-        blog: { url: 'https://ankur.tax/blog/' }
+          ['Wealth Planner', 'IDE-based budgeting tool.'],
+          ['Wealth on Rails', 'Wealth Planner written in Rails; abandoned.'],
+          ['Little Wins', "Previous name for Wealth Planner; didn\'t work out."],
+          ['OpenClaw Workspace', 'AKA “Mr. Perfect”.'],
+          ['Manuscriptos', 'A novel writer / Mac OS 9 emulator / life hack.']
+        ]
       };
 
-      const BIOS = [
-        'ANKUR BIOS v3.1 (c) 1989-1993 AnkurWare',
-        'CPU: HUMAN-CLASS (multi-core)  |  RAM: 64GB (coffee-based)',
-        'Checking disk... OK',
-        'Initializing dev network... OK',
-        '',
-        '    _             _                _           ',
-        '   / \\   _ __   __| | ___   _ __   | |_ ___  __ ',
-        '  / _ \\ | \'_ \\ / _` |/ _ \\ | \'_ \\  | __/ _ \\/ _|',
-        ' / ___ \\| | | | (_| |  __/ | | | | | ||  __/ |_ ',
-        '/_/   \\_\\_| |_|\\__,_|\\___| |_| |_|  \\__\\___|\\__|',
-        '',
-        DATA.name,
-        DATA.location,
-        'GitHub: ' + DATA.github,
-        '',
-        'Type `help` to get started.',
-      ].join('\n');
+      const history = [];
+      let historyIdx = -1;
 
-      function printRepos(term) {
-        term.echo('Recent private repos (names only):');
-        term.echo('');
-        DATA.repos.forEach(r => {
-          term.echo('- ' + r.name + (r.note ? (' — ' + r.note) : ''));
-        });
+      function scrollToBottom(){
+        output.scrollTop = output.scrollHeight;
       }
 
-      $('#term').terminal(function(command) {
-        const cmd = $.trim(command);
-        if (!cmd) return;
+      function addLine(text, cls){
+        const div = document.createElement('div');
+        div.className = 'line' + (cls ? ' ' + cls : '');
+        div.textContent = text;
+        output.appendChild(div);
+        scrollToBottom();
+      }
 
-        switch (cmd.toLowerCase()) {
-          case 'help':
-            this.echo('Commands:');
-            this.echo('- help   : show this');
-            this.echo('- about  : quick bio');
-            this.echo('- repos  : recent private repo names');
-            this.echo('- blog   : blog url');
-            this.echo('- clear  : clear screen');
-            break;
-          case 'about':
-            DATA.about.forEach(line => this.echo(line));
-            break;
-          case 'repos':
-            printRepos(this);
-            break;
-          case 'blog':
-            this.echo('Blog: ' + DATA.blog.url);
-            break;
-          case 'clear':
-            this.clear();
-            break;
-          default:
-            this.error('Unknown command: ' + cmd);
-            this.echo('Type `help` for commands.');
+      function addHTML(html, cls){
+        const div = document.createElement('div');
+        div.className = 'line' + (cls ? ' ' + cls : '');
+        div.innerHTML = html;
+        output.appendChild(div);
+        scrollToBottom();
+      }
+
+      function delay(ms){ return new Promise(r => setTimeout(r, ms)); }
+
+      async function typeLines(lines, msPerLine){
+        for (const line of lines){
+          addLine(line);
+          await delay(msPerLine);
         }
-      }, {
-        greetings: BIOS,
-        prompt: '$ ',
-        checkArity: false,
-        height: '100%'
+      }
+
+      function help(){
+        addLine('Commands:');
+        addLine('  help   - this message');
+        addLine('  about  - quick bio');
+        addLine('  repos  - recent private repo names');
+        addLine('  blog   - blog url');
+        addLine('  clear  - clear screen');
+      }
+
+      function about(){
+        DATA.about.forEach(l => addLine(l));
+        addLine(DATA.location, 'muted');
+        addHTML('GitHub: <a href="'+DATA.github+'" target="_blank" rel="noopener">'+DATA.github+'</a>', 'muted');
+      }
+
+      function repos(){
+        addLine('Recent private repos (names only):');
+        addLine('');
+        DATA.repos.forEach(([n, note]) => addLine('- ' + n + ' — ' + note));
+      }
+
+      function blog(){
+        addHTML('Blog: <a href="'+DATA.blog+'" target="_blank" rel="noopener">'+DATA.blog+'</a>');
+      }
+
+      function clear(){
+        output.innerHTML = '';
+      }
+
+      function run(command){
+        const c = command.trim();
+        if (!c) return;
+        const lc = c.toLowerCase();
+        addLine('C:\\> ' + c, 'muted');
+
+        switch(lc){
+          case 'help': help(); break;
+          case 'about': about(); break;
+          case 'repos': repos(); break;
+          case 'blog': blog(); break;
+          case 'clear': clear(); break;
+          default:
+            addLine('Bad command or file name: ' + c, 'err');
+            addLine('Type `help` for commands.', 'muted');
+        }
+      }
+
+      cmd.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter'){
+          const value = cmd.value;
+          cmd.value = '';
+          if (value.trim()){
+            history.push(value);
+            historyIdx = history.length;
+          }
+          run(value);
+        } else if (e.key === 'ArrowUp'){
+          if (history.length === 0) return;
+          historyIdx = Math.max(0, historyIdx - 1);
+          cmd.value = history[historyIdx] ?? '';
+          e.preventDefault();
+        } else if (e.key === 'ArrowDown'){
+          if (history.length === 0) return;
+          historyIdx = Math.min(history.length, historyIdx + 1);
+          cmd.value = history[historyIdx] ?? '';
+          e.preventDefault();
+        }
       });
+
+      // focus input on click anywhere
+      document.getElementById('screen').addEventListener('click', () => cmd.focus());
+
+      // boot text
+      (async function boot(){
+        const bootLines = [
+          'ANKUR BIOS v3.1 (c) 1989-1993 AnkurWare',
+          'CPU: HUMAN-CLASS (multi-core)  |  RAM: 64GB (coffee-based)',
+          'Checking disk... OK',
+          'Initializing dev network... OK',
+          '',
+          '    _             _                _           ',
+          '   / \\   _ __   __| | ___   _ __   | |_ ___  __ ',
+          '  / _ \\ | \'_ \\ / _` |/ _ \\ | \'_ \\  | __/ _ \\/ _|',
+          ' / ___ \\| | | | (_| |  __/ | | | | | ||  __/ |_ ',
+          '/_/   \\_\\_| |_|\\__,_|\\___| |_| |_|  \\__\\___|\\__|',
+          '',
+          DATA.name,
+          DATA.location,
+          'GitHub: ' + DATA.github,
+          '',
+          'Type `help` to get started.'
+        ];
+        await typeLines(bootLines, 85);
+        addLine('');
+        cmd.focus();
+      })();
     })();
   </script>
 </body>
