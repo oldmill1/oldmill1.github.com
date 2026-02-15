@@ -287,22 +287,28 @@
       // boot text
       (async function boot(){
         const bootLines = [
-          'ANKUR BIOS v3.1 (c) 1989-1993 AnkurWare',
-          'CPU: HUMAN-CLASS (multi-core)  |  RAM: 64GB (coffee-based)',
-          'Checking disk... OK',
-          'Initializing dev network... OK',
-          '',
-          '    _             _                _           ',
-          '   / \\   _ __   __| | ___   _ __   | |_ ___  __ ',
-          '  / _ \\ | \'_ \\ / _` |/ _ \\ | \'_ \\  | __/ _ \\/ _|',
-          ' / ___ \\| | | | (_| |  __/ | | | | | ||  __/ |_ ',
-          '/_/   \\_\\_| |_|\\__,_|\\___| |_| |_|  \\__\\___|\\__|',
-          '',
-          DATA.name,
-          DATA.location,
-          'GitHub: ' + DATA.github,
-          '',
-          'Type `help` to get started.'
+          "Booting UP...",
+          "",
+          "Loading memory manager...",
+          "OK",
+          "",
+          "Indexing filesystem...",
+          "This may take a moment.",
+          "It didn't.",
+          "",
+          "Loading extensions...",
+          "You installed these.",
+          "",
+          "Starting services...",
+          "Probably fine.",
+          "You know what, on second thought",
+          "Shutting services down...",
+          "",
+          "System ready.",
+          "",
+          "Good luck.",
+          "",
+          "Type `help` to continue."
         ];
         await typeLines(bootLines, 85);
         addLine('');
