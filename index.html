@@ -6,244 +6,84 @@
   <meta name="description" content="Ankur Taxali — Software Engineer @ G Adventures" />
   <title>Ankur Taxali</title>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-  <style>
-    :root{
-      --bg:#ffffff;
-      --text:#111827;
-      --muted:#4b5563;
-      --muted2:#6b7280;
-      --border:#e5e7eb;
-      --chip:#f3f4f6;
-      --chipBorder:#e5e7eb;
-      --link:#111827;
-      --btn:#111827;
-      --btnText:#ffffff;
-      --btnAlt:#ffffff;
-      --btnAltText:#111827;
-      --shadow: 0 10px 30px rgba(17,24,39,0.08);
-      --radius: 14px;
-      --max: 860px;
-    }
-
-    *{box-sizing:border-box}
-    body{
-      margin:0;
-      background: var(--bg);
-      color: var(--text);
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
-      line-height: 1.55;
-    }
-
-    a{color:var(--link); text-decoration:none}
-    a:hover{text-decoration:underline; text-underline-offset:3px}
-
-    .wrap{max-width: var(--max); margin:0 auto; padding: 56px 20px 48px;}
-
-    .top{
-      display:flex;
-      gap:18px;
-      align-items:flex-start;
-    }
-
-    .avatar{
-      width:42px;
-      height:42px;
-      border-radius:999px;
-      border:1px solid var(--border);
-      background: #fafafa;
-      display:grid;
-      place-items:center;
-      font-weight:700;
-      letter-spacing:0.06em;
-      font-size:12px;
-      color:#111827;
-      flex:0 0 auto;
-    }
-
-    h1{margin:0; font-size:34px; letter-spacing:-0.03em; line-height:1.15;}
-    .sub{margin-top:8px; color:var(--muted); font-size:15px; max-width: 62ch;}
-
-    .cta{margin-top:14px; display:flex; gap:10px; flex-wrap:wrap;}
-    .btn{
-      display:inline-flex;
-      align-items:center;
-      gap:10px;
-      padding:10px 14px;
-      border-radius:999px;
-      border:1px solid var(--btn);
-      background: var(--btn);
-      color: var(--btnText);
-      font-weight:600;
-      font-size:13px;
-    }
-    .btn.secondary{
-      background: var(--btnAlt);
-      color: var(--btnAltText);
-      border:1px solid var(--border);
-    }
-
-    .note{margin-top:10px; color:var(--muted2); font-size:13px;}
-
-    .section{margin-top:38px;}
-    .kicker{
-      color: var(--muted2);
-      font-size: 11px;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      margin-bottom: 10px;
-    }
-
-    .section h2{margin:0 0 10px 0; font-size:16px;}
-    .section p{margin:0; color:var(--muted); font-size:14px;}
-
-    .chips{margin-top:12px; display:flex; flex-wrap:wrap; gap:8px;}
-    .chip{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      padding:8px 10px;
-      background: var(--chip);
-      border:1px solid var(--chipBorder);
-      border-radius:999px;
-      font-size:13px;
-      color:#111827;
-    }
-
-    .grid{margin-top:14px; display:grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap:12px;}
-
-    .card{
-      border:1px solid var(--border);
-      border-radius: var(--radius);
-      padding:14px;
-      background:#fff;
-      box-shadow: var(--shadow);
-    }
-
-    .card .topline{display:flex; align-items:center; justify-content:space-between; gap:10px;}
-    .card .title{font-weight:700; font-size:14px;}
-    .badge{
-      font-size:11px;
-      padding:4px 8px;
-      border-radius:999px;
-      border:1px solid var(--border);
-      background:#fafafa;
-      color: var(--muted);
-      white-space:nowrap;
-    }
-    .card .desc{margin-top:8px; color: var(--muted); font-size:13px;}
-    .card .link{margin-top:10px; font-size:13px; font-weight:600;}
-
-    .find{margin-top:10px; display:flex; gap:10px; flex-wrap:wrap;}
-    .pill{
-      border:1px solid var(--border);
-      border-radius:999px;
-      padding:8px 10px;
-      font-size:13px;
-      background:#fff;
-    }
-
-    footer{
-      margin-top:52px;
-      padding-top:18px;
-      border-top:1px solid var(--border);
-      color: var(--muted2);
-      font-size:12px;
-      display:flex;
-      justify-content:space-between;
-      gap:12px;
-      flex-wrap:wrap;
-    }
-
-    @media (max-width: 720px){
-      h1{font-size:30px;}
-      .grid{grid-template-columns: 1fr;}
-    }
-  </style>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <main class="wrap">
-    <section class="top">
-      <div class="avatar" aria-hidden="true">AT</div>
-      <div>
-        <h1>Hey, I’m Ankur.</h1>
-        <div class="sub">
-          Software Engineer @ G Adventures (2016–present). I like shipping practical tools—especially the kind that simplify workflows and quietly compound over time.
+  <div class="page-shell">
+    <main class="frame">
+      <header class="topbar">
+        <a class="brand" href="#">Ankur.</a>
+        <nav class="menu" aria-label="Primary">
+          <a href="#about">About</a>
+          <a href="#projects">Projects</a>
+          <a href="#experience">Experience</a>
+          <a href="#contact">Services</a>
+        </nav>
+        <a class="email" href="mailto:ankurtaxali@gmail.com">ankurtaxali@gmail.com</a>
+      </header>
+
+      <section class="hero" id="about">
+        <div class="hero-copy">
+          <h1>
+            Hi, I&rsquo;m Ankur Taxali <span class="accent">a Software</span> <span class="accent">Engineer.</span>
+          </h1>
+          <p>
+            A software engineer with over eight years of hands-on experience,
+            consistently delivering practical and reliable solutions.
+          </p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="mailto:ankurtaxali@gmail.com">Talk with me</a>
+            <a class="btn btn-secondary" href="https://ankur.tax/blog/" target="_blank" rel="noopener">Read my blog</a>
+          </div>
         </div>
-        <div class="cta">
-          <a class="btn" href="https://github.com/oldmill1" target="_blank" rel="noopener">GitHub</a>
-          <a class="btn secondary" href="https://ankur.tax/blog/" target="_blank" rel="noopener">Blog</a>
+        <img
+          class="hero-photo"
+          src="https://placehold.it/132x132"
+          alt="Portrait placeholder"
+          width="132"
+          height="132"
+        />
+      </section>
+
+      <section class="meta-row">
+        <div class="socials" id="contact">
+          <a href="https://twitter.com" target="_blank" rel="noopener">Twitter</a>
+          <a href="https://dribbble.com" target="_blank" rel="noopener">Dribbble</a>
+          <a href="https://github.com/oldmill1" target="_blank" rel="noopener">GitHub</a>
+          <a href="https://www.linkedin.com" target="_blank" rel="noopener">LinkedIn</a>
         </div>
-        <div class="note">Minimal site. No ads. No tracking. Just links and projects.</div>
-      </div>
-    </section>
+        <a class="discover" href="#projects">Discover &#8595;</a>
+      </section>
 
-    <section class="section">
-      <div class="kicker">Tech stack</div>
-      <h2>Tools I reach for</h2>
-      <div class="chips" aria-label="Tech stack">
-        <span class="chip">TypeScript</span>
-        <span class="chip">Python</span>
-        <span class="chip">Rails</span>
-        <span class="chip">GitHub</span>
-      </div>
-    </section>
+      <section class="about-block" id="experience">
+        <span class="about-label">About</span>
+        <p>
+          I build software that prioritizes clarity, speed, and maintainability.
+          Across product teams, I have led architecture decisions, shipped features,
+          and improved engineering workflows.
+        </p>
+        <p>
+          Recent work includes developer tooling, AI-assisted writing products,
+          and personal finance applications designed for day-to-day utility.
+        </p>
+      </section>
 
-    <section class="section">
-      <div class="kicker">Side projects</div>
-      <h2>Stuff I’m building</h2>
-      <div class="grid">
-        <article class="card">
-          <div class="topline">
-            <div class="title">Wealth Planner</div>
-            <div class="badge">Active</div>
-          </div>
-          <div class="desc">TUI personal finance manager and budgeting tool.</div>
-          <div class="link"><a href="https://github.com/oldmill1/wealth-planner" target="_blank" rel="noopener">github.com/oldmill1/wealth-planner →</a></div>
+      <section class="projects" id="projects">
+        <article class="project-card">
+          <h2>Wealth Planner</h2>
+          <p>TUI personal finance manager and budgeting tool.</p>
+          <a href="https://github.com/oldmill1/wealth-planner" target="_blank" rel="noopener">github.com/oldmill1/wealth-planner</a>
         </article>
-
-        <article class="card">
-          <div class="topline">
-            <div class="title">manuscriptOS</div>
-            <div class="badge">Active</div>
-          </div>
-          <div class="desc">Online novel editor/writer with manuscript writing support.</div>
-          <div class="link"><a href="https://github.com/oldmill1/insanely_great_writer" target="_blank" rel="noopener">github.com/oldmill1/insanely_great_writer →</a></div>
+        <article class="project-card">
+          <h2>manuscriptOS</h2>
+          <p>Online novel editor with structured manuscript workflow support.</p>
+          <a href="https://github.com/oldmill1/insanely_great_writer" target="_blank" rel="noopener">github.com/oldmill1/insanely_great_writer</a>
         </article>
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="kicker">Published</div>
-      <h2>Books</h2>
-      <div class="grid">
-        <article class="card">
-          <div class="topline">
-            <div class="title">Max Levy</div>
-            <div class="badge">Gumroad</div>
-          </div>
-          <div class="desc">The Lazy Dev’s Guide to AI Search: Ship semantic, vector, and conversational apps.</div>
-          <div class="link"><a href="https://maxlevythelazydev.gumroad.com/l/btdafl" target="_blank" rel="noopener">View on Gumroad →</a></div>
-        </article>
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="kicker">Find me</div>
-      <h2>Links</h2>
-      <div class="find">
-        <a class="pill" href="https://github.com/oldmill1" target="_blank" rel="noopener">GitHub</a>
-        <a class="pill" href="https://ankur.tax/blog/" target="_blank" rel="noopener">Blog</a>
-      </div>
-    </section>
-
-    <footer>
-      <div>© Ankur Taxali</div>
-      <div>Hosted on GitHub Pages</div>
-    </footer>
-  </main>
+      </section>
+    </main>
+  </div>
 </body>
 </html>
