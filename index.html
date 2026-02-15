@@ -5,9 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description" content="Ankur Taxali" />
   <title>Ankur Taxali</title>
+
+  <!-- jQuery + jQuery Terminal (no build step; CDN) -->
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery.terminal@2.40.2/css/jquery.terminal.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/jquery.terminal@2.40.2/js/jquery.terminal.min.js"></script>
+
   <style>
     :root{
-      /* slate/terminal-ish */
       --bg:#0b1220;
       --panel:#0f172a;
       --text:#e2e8f0;
@@ -23,11 +28,8 @@
       color:var(--text);
       line-height:1.5;
     }
-    a{color:var(--accent); text-decoration:none}
-    a:hover{text-decoration:underline}
 
-    .wrap{max-width:900px; margin:0 auto; padding:48px 20px; position:relative}
-    /* fake-terminal scanlines (subtle) */
+    .wrap{max-width:980px; margin:0 auto; padding:48px 20px; position:relative}
     .wrap::before{
       content:"";
       pointer-events:none;
@@ -41,7 +43,7 @@
         rgba(0,0,0,0) 6px
       );
       mix-blend-mode:overlay;
-      opacity:0.22;
+      opacity:0.18;
     }
 
     header{
@@ -49,49 +51,73 @@
       align-items:flex-start;
       justify-content:space-between;
       gap:24px;
-      padding:24px;
+      padding:22px 22px;
       border:1px solid var(--border);
       border-radius:16px;
       background:rgba(15,23,42,0.92);
     }
-    h1{margin:0; font-size:32px; letter-spacing:-0.02em}
-    .tagline{margin-top:8px; color:var(--muted)}
-    .meta{display:flex; flex-direction:column; gap:8px; text-align:right; color:var(--muted); font-size:14px}
+    h1{margin:0; font-size:28px; letter-spacing:-0.02em}
+    .tagline{margin-top:6px; color:var(--muted); font-size:14px}
+    .meta{display:flex; flex-direction:column; gap:8px; text-align:right; color:var(--muted); font-size:13px}
 
-    main{margin-top:18px; display:grid; gap:14px}
+    main{margin-top:16px; display:grid; gap:14px}
     section{
-      padding:18px 20px;
+      padding:16px 18px;
       border:1px solid var(--border);
       border-radius:16px;
       background:rgba(15,23,42,0.72);
     }
 
-    h2{
-      margin:0 0 10px 0;
-      font-size:12px;
-      letter-spacing:0.12em;
-      text-transform:uppercase;
-      color:var(--muted);
-    }
-    h2::before{content:"$ "; color:var(--accent);}
+    .small{color:var(--muted); font-size:14px}
 
-    .grid{display:grid; grid-template-columns: 1fr 1fr; gap:14px}
+    /* jQuery Terminal theme overrides */
+    .terminal, .cmd, .terminal-output{
+      font-family: inherit;
+      font-size: 14px;
+      line-height: 1.55;
+    }
+
+    .terminal {
+      --color: var(--text);
+      --background: transparent;
+      --link-color: var(--accent);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: rgba(15,23,42,0.65);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+      padding: 10px;
+    }
+
+    .terminal .terminal-output {
+      padding: 10px 8px 8px 8px;
+    }
+
+    .terminal .cmd {
+      padding: 4px 8px 10px 8px;
+    }
+
+    .terminal .prompt, .terminal .prompt span {
+      color: var(--accent);
+    }
+
+    .terminal a { color: var(--accent); }
+
+    .kbd {
+      border: 1px solid var(--border);
+      border-bottom-width: 2px;
+      background: rgba(2,6,23,0.4);
+      padding: 1px 6px;
+      border-radius: 8px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
     @media (max-width: 720px){
       header{flex-direction:column}
       .meta{text-align:left}
-      .grid{grid-template-columns:1fr}
     }
 
-    ul{margin:0; padding-left:18px}
-    li{margin:8px 0}
-    .small{color:var(--muted); font-size:14px}
-
-    footer{margin-top:28px; color:var(--muted); font-size:13px; text-align:center}
-    @media print{
-      body{background:white; color:black}
-      header, section{background:white; border-color:#ddd}
-      a{color:#0366d6}
-    }
+    footer{margin-top:18px; color:var(--muted); font-size:12px; text-align:center}
   </style>
 </head>
 <body>
@@ -103,54 +129,103 @@
       </div>
       <div class="meta">
         <div>Toronto, Canada</div>
-        <div><a href="https://github.com/oldmill1">github.com/oldmill1</a></div>
+        <div><a href="https://github.com/oldmill1" style="color: var(--accent)">github.com/oldmill1</a></div>
         <div class="small">(repo links intentionally omitted)</div>
       </div>
     </header>
 
     <main>
       <section>
-        <h2>Summary</h2>
         <div class="small">
-          Builder focused on practical tools, automation, and developer workflow improvements.
+          Type <span class="kbd">help</span> for commands. (Try: <span class="kbd">about</span>, <span class="kbd">repos</span>, <span class="kbd">blog</span>)
         </div>
       </section>
 
-      <div class="grid">
-        <section>
-          <h2>Recent private repos (last 10)</h2>
-          <ul>
-            <li><strong>Wealth Planner</strong> <span class="small">— IDE-based budgeting tool.</span></li>
-            <li><strong>Wealth on Rails</strong> <span class="small">— Wealth Planner written in Rails; abandoned.</span></li>
-            <li><strong>Little Wins</strong> <span class="small">— Previous name for Wealth Planner; didn’t work out.</span></li>
-            <li><strong>OpenClaw Workspace</strong> <span class="small">— AKA “Mr. Perfect”.</span></li>
-            <li><strong>Manuscriptos</strong> <span class="small">— A novel writer / Mac OS 9 emulator / life hack.</span></li>
-          </ul>
-        </section>
-
-        <section>
-          <h2>Stack</h2>
-          <ul>
-            <li>TypeScript / Node</li>
-            <li>Python</li>
-            <li>Shell automation</li>
-            <li>Git + GitHub workflows</li>
-          </ul>
-          <!-- removed -->
-        </section>
-      </div>
-
       <section>
-        <h2>Contact</h2>
-        <div class="small">
-          Email available on request.
-        </div>
+        <div id="term"></div>
       </section>
     </main>
 
     <footer>
-      © Ankur Taxali.
+      © Ankur Taxali
     </footer>
   </div>
+
+  <script>
+    (function() {
+      const DATA = {
+        about: [
+          'builder · software · automation',
+          'focused on practical tools and developer workflow improvements.'
+        ],
+        repos: [
+          { name: 'Wealth Planner', note: 'IDE-based budgeting tool.' },
+          { name: 'Wealth on Rails', note: 'Wealth Planner written in Rails; abandoned.' },
+          { name: 'Little Wins', note: "Previous name for Wealth Planner; didn’t work out." },
+          { name: 'OpenClaw Workspace', note: 'AKA “Mr. Perfect”.' },
+          { name: 'Manuscriptos', note: 'A novel writer / Mac OS 9 emulator / life hack.' }
+        ],
+        blog: {
+          url: 'https://ankur.tax/blog/'
+        }
+      };
+
+      function printRepos(term) {
+        term.echo('Recent private repos (names only):');
+        term.echo('');
+        DATA.repos.forEach(r => {
+          if (r.note) {
+            term.echo(`- ${r.name} — ${r.note}`);
+          } else {
+            term.echo(`- ${r.name}`);
+          }
+        });
+      }
+
+      const term = $('#term').terminal(function(command) {
+        const cmd = $.trim(command);
+        if (!cmd) return;
+
+        switch (cmd.toLowerCase()) {
+          case 'help':
+            this.echo('Commands:');
+            this.echo('- help   : show this');
+            this.echo('- about  : quick bio');
+            this.echo('- repos  : recent private repo names');
+            this.echo('- blog   : open blog');
+            this.echo('- clear  : clear screen');
+            break;
+          case 'about':
+            DATA.about.forEach(line => this.echo(line));
+            break;
+          case 'repos':
+            printRepos(this);
+            break;
+          case 'blog':
+            this.echo('Blog: ' + DATA.blog.url);
+            this.echo('(open in a new tab)');
+            break;
+          case 'clear':
+            this.clear();
+            break;
+          default:
+            this.error('Unknown command: ' + cmd);
+            this.echo('Type `help` for commands.');
+        }
+      }, {
+        greetings: [
+          'ankur.tax',
+          'Type `help` to get started.'
+        ].join('\n'),
+        prompt: '$ ',
+        checkArity: false
+      });
+
+      // Focus terminal input on click anywhere in the terminal panel
+      $('#term').on('click', function() {
+        term.focus(true);
+      });
+    })();
+  </script>
 </body>
 </html>
