@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description" content="Ankur Taxali" />
-  <title>Ankur Taxali</title>
+  <title>ankur.tax</title>
 
   <!-- jQuery + jQuery Terminal (no build step; CDN) -->
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
@@ -21,16 +21,24 @@
       --border:#334155;
     }
     *{box-sizing:border-box}
+    html, body{height:100%}
     body{
       margin:0;
+      overflow:hidden; /* no page scrollbars */
       font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
       background:linear-gradient(180deg, var(--bg), #070a12);
       color:var(--text);
-      line-height:1.5;
     }
 
-    .wrap{max-width:980px; margin:0 auto; padding:48px 20px; position:relative}
-    .wrap::before{
+    /* full-viewport terminal container */
+    #term{
+      height:100vh;
+      width:100vw;
+      padding:16px;
+    }
+
+    /* fake scanlines (subtle) */
+    body::before{
       content:"";
       pointer-events:none;
       position:fixed;
@@ -43,34 +51,10 @@
         rgba(0,0,0,0) 6px
       );
       mix-blend-mode:overlay;
-      opacity:0.18;
+      opacity:0.16;
     }
 
-    header{
-      display:flex;
-      align-items:flex-start;
-      justify-content:space-between;
-      gap:24px;
-      padding:22px 22px;
-      border:1px solid var(--border);
-      border-radius:16px;
-      background:rgba(15,23,42,0.92);
-    }
-    h1{margin:0; font-size:28px; letter-spacing:-0.02em}
-    .tagline{margin-top:6px; color:var(--muted); font-size:14px}
-    .meta{display:flex; flex-direction:column; gap:8px; text-align:right; color:var(--muted); font-size:13px}
-
-    main{margin-top:16px; display:grid; gap:14px}
-    section{
-      padding:16px 18px;
-      border:1px solid var(--border);
-      border-radius:16px;
-      background:rgba(15,23,42,0.72);
-    }
-
-    .small{color:var(--muted); font-size:14px}
-
-    /* jQuery Terminal theme overrides */
+    /* terminal theme overrides */
     .terminal, .cmd, .terminal-output{
       font-family: inherit;
       font-size: 14px;
@@ -81,79 +65,37 @@
       --color: var(--text);
       --background: transparent;
       --link-color: var(--accent);
+      height: calc(100vh - 32px); /* account for #term padding */
+      width: 100%;
       border: 1px solid var(--border);
       border-radius: 14px;
-      background: rgba(15,23,42,0.65);
-      box-shadow: 0 8px 30px rgba(0,0,0,0.25);
-      padding: 10px;
+      background: rgba(15,23,42,0.72);
+      box-shadow: 0 10px 40px rgba(0,0,0,0.28);
     }
 
-    .terminal .terminal-output {
-      padding: 10px 8px 8px 8px;
-    }
-
-    .terminal .cmd {
-      padding: 4px 8px 10px 8px;
-    }
-
-    .terminal .prompt, .terminal .prompt span {
-      color: var(--accent);
-    }
-
+    .terminal .prompt, .terminal .prompt span{ color: var(--accent); }
     .terminal a { color: var(--accent); }
 
-    .kbd {
-      border: 1px solid var(--border);
-      border-bottom-width: 2px;
-      background: rgba(2,6,23,0.4);
-      padding: 1px 6px;
-      border-radius: 8px;
-      color: var(--muted);
-      font-size: 12px;
+    /* keep terminal output scrollable, not the page */
+    .terminal .terminal-output{
+      overflow:auto;
     }
 
     @media (max-width: 720px){
-      header{flex-direction:column}
-      .meta{text-align:left}
+      #term{padding:10px;}
+      .terminal{height: calc(100vh - 20px); border-radius: 12px;}
     }
-
-    footer{margin-top:18px; color:var(--muted); font-size:12px; text-align:center}
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <header>
-      <div>
-        <h1>Ankur Taxali</h1>
-        <div class="tagline">builder · software · automation · small tools that compound</div>
-      </div>
-      <div class="meta">
-        <div>Toronto, Canada</div>
-        <div><a href="https://github.com/oldmill1" style="color: var(--accent)">github.com/oldmill1</a></div>
-        <div class="small">(repo links intentionally omitted)</div>
-      </div>
-    </header>
-
-    <main>
-      <section>
-        <div class="small">
-          Type <span class="kbd">help</span> for commands. (Try: <span class="kbd">about</span>, <span class="kbd">repos</span>, <span class="kbd">blog</span>)
-        </div>
-      </section>
-
-      <section>
-        <div id="term"></div>
-      </section>
-    </main>
-
-    <footer>
-      © Ankur Taxali
-    </footer>
-  </div>
+  <div id="term"></div>
 
   <script>
     (function() {
       const DATA = {
+        name: 'Ankur Taxali',
+        location: 'Toronto, Canada',
+        github: 'https://github.com/oldmill1',
         about: [
           'builder · software · automation',
           'focused on practical tools and developer workflow improvements.'
@@ -165,24 +107,37 @@
           { name: 'OpenClaw Workspace', note: 'AKA “Mr. Perfect”.' },
           { name: 'Manuscriptos', note: 'A novel writer / Mac OS 9 emulator / life hack.' }
         ],
-        blog: {
-          url: 'https://ankur.tax/blog/'
-        }
+        blog: { url: 'https://ankur.tax/blog/' }
       };
+
+      const BIOS = [
+        'ANKUR BIOS v3.1 (c) 1989-1993 AnkurWare',
+        'CPU: HUMAN-CLASS (multi-core)  |  RAM: 64GB (coffee-based)',
+        'Checking disk... OK',
+        'Initializing dev network... OK',
+        '',
+        '    _             _                _           ',
+        '   / \\   _ __   __| | ___   _ __   | |_ ___  __ ',
+        '  / _ \\ | \'_ \\ / _` |/ _ \\ | \'_ \\  | __/ _ \\/ _|',
+        ' / ___ \\| | | | (_| |  __/ | | | | | ||  __/ |_ ',
+        '/_/   \\_\\_| |_|\\__,_|\\___| |_| |_|  \\__\\___|\\__|',
+        '',
+        DATA.name,
+        DATA.location,
+        'GitHub: ' + DATA.github,
+        '',
+        'Type `help` to get started.',
+      ].join('\n');
 
       function printRepos(term) {
         term.echo('Recent private repos (names only):');
         term.echo('');
         DATA.repos.forEach(r => {
-          if (r.note) {
-            term.echo(`- ${r.name} — ${r.note}`);
-          } else {
-            term.echo(`- ${r.name}`);
-          }
+          term.echo('- ' + r.name + (r.note ? (' — ' + r.note) : ''));
         });
       }
 
-      const term = $('#term').terminal(function(command) {
+      $('#term').terminal(function(command) {
         const cmd = $.trim(command);
         if (!cmd) return;
 
@@ -192,7 +147,7 @@
             this.echo('- help   : show this');
             this.echo('- about  : quick bio');
             this.echo('- repos  : recent private repo names');
-            this.echo('- blog   : open blog');
+            this.echo('- blog   : blog url');
             this.echo('- clear  : clear screen');
             break;
           case 'about':
@@ -203,7 +158,6 @@
             break;
           case 'blog':
             this.echo('Blog: ' + DATA.blog.url);
-            this.echo('(open in a new tab)');
             break;
           case 'clear':
             this.clear();
@@ -213,17 +167,10 @@
             this.echo('Type `help` for commands.');
         }
       }, {
-        greetings: [
-          'ankur.tax',
-          'Type `help` to get started.'
-        ].join('\n'),
+        greetings: BIOS,
         prompt: '$ ',
-        checkArity: false
-      });
-
-      // Focus terminal input on click anywhere in the terminal panel
-      $('#term').on('click', function() {
-        term.focus(true);
+        checkArity: false,
+        height: '100%'
       });
     })();
   </script>
