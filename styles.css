@@ -118,12 +118,6 @@ a {
   opacity: 0.92;
 }
 
-.email {
-  border-bottom: 2px solid var(--ink);
-  padding-bottom: 0.15rem;
-  font-size: 1rem;
-}
-
 .hero {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 132px;
