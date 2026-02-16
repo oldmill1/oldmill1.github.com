@@ -32,6 +32,8 @@
 
         <div class="activity-cards" id="activity-cards" aria-label="Contribution totals"></div>
 
+        <div class="calendar-wrap calendar-wrap-compact" id="calendar-3m-wrap" aria-label="Last three months contribution calendar"></div>
+
         <div class="calendar-wrap" id="calendar-wrap" aria-label="Contribution calendar"></div>
 
         <p class="activity-help" id="activity-help">
@@ -45,6 +47,7 @@
     (async function loadActivity() {
       const summary = document.getElementById("activity-summary");
       const cards = document.getElementById("activity-cards");
+      const threeMonthWrap = document.getElementById("calendar-3m-wrap");
       const calendarWrap = document.getElementById("calendar-wrap");
       const help = document.getElementById("activity-help");
 
@@ -94,12 +97,15 @@
         return 4;
       }
 
-      function renderCalendar(calendar) {
+      function renderCalendar(calendar, container, options) {
         const weeks = calendar.weeks || [];
         if (!weeks.length) {
-          calendarWrap.textContent = "No calendar data found.";
+          container.textContent = "No calendar data found.";
           return;
         }
+
+        const weeksToShow = options && options.weeksToShow ? options.weeksToShow : weeks.length;
+        const displayWeeks = weeks.slice(-weeksToShow);
 
         const grid = document.createElement("div");
         grid.className = "calendar-grid";
@@ -115,7 +121,7 @@
         weeksRow.className = "calendar-weeks";
 
         let lastMonth = "";
-        weeks.forEach(function (week, index) {
+        displayWeeks.forEach(function (week, index) {
           const firstDay = week.contributionDays && week.contributionDays[0];
           const month = firstDay ? monthLabel(firstDay.date) : "";
 
@@ -147,16 +153,16 @@
           weeksRow.appendChild(weekCol);
         });
 
-        const weekCount = weeks.length;
-        monthRow.style.gridTemplateColumns = "repeat(" + weekCount + ", 10px)";
-        weeksRow.style.gridTemplateColumns = "repeat(" + weekCount + ", 10px)";
+        const weekCount = displayWeeks.length;
+        monthRow.style.gridTemplateColumns = "repeat(" + weekCount + ", var(--cell-size, 10px))";
+        weeksRow.style.gridTemplateColumns = "repeat(" + weekCount + ", var(--cell-size, 10px))";
 
         grid.appendChild(monthRow);
         grid.appendChild(dayLabels);
         grid.appendChild(weeksRow);
 
-        calendarWrap.innerHTML = "";
-        calendarWrap.appendChild(grid);
+        container.innerHTML = "";
+        container.appendChild(grid);
       }
 
       try {
@@ -174,7 +180,8 @@
           " contributions in the last year.";
 
         renderCards(data.totals);
-        renderCalendar(data.calendar);
+        renderCalendar(data.calendar, threeMonthWrap, { weeksToShow: 13 });
+        renderCalendar(data.calendar, calendarWrap);
 
         if (data.fetchedAt) {
           help.textContent =
@@ -185,6 +192,7 @@
       } catch (error) {
         summary.textContent = "Data check pending: " + error.message;
         cards.innerHTML = "";
+        threeMonthWrap.textContent = "Run the contribution fetch script to populate this page.";
         calendarWrap.textContent = "Run the contribution fetch script to populate this page.";
       }
     })();
