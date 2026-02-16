@@ -159,6 +159,19 @@ a {
   line-height: 1.5;
 }
 
+.hero-copy p a {
+  color: #b8dcff;
+  text-decoration: underline;
+  text-decoration-color: rgba(184, 220, 255, 0.65);
+  text-underline-offset: 0.12em;
+  transition: color 0.12s ease, text-decoration-color 0.12s ease;
+}
+
+.hero-copy p a:hover {
+  color: #d5eaff;
+  text-decoration-color: rgba(213, 234, 255, 0.9);
+}
+
 .hero-actions {
   margin-top: 1.6rem;
   display: flex;
