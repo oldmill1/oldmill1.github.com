@@ -51,6 +51,43 @@ function isoYearAgo() {
   return d.toISOString();
 }
 
+function dateFromIso(value) {
+  return String(value || "").slice(0, 10);
+}
+
+function buildCommitDays(commitContributionsByRepository) {
+  const totalsByDate = new Map();
+  let hasTruncatedRepoData = false;
+
+  for (const repoEntry of commitContributionsByRepository || []) {
+    const contributions = repoEntry?.contributions;
+    const nodes = contributions?.nodes || [];
+    if (contributions?.pageInfo?.hasNextPage) {
+      hasTruncatedRepoData = true;
+    }
+
+    for (const node of nodes) {
+      const date = dateFromIso(node?.occurredAt);
+      const count = Number(node?.commitCount || 0);
+      if (!date || count <= 0) {
+        continue;
+      }
+      totalsByDate.set(date, (totalsByDate.get(date) || 0) + count);
+    }
+  }
+
+  const commitDays = Array.from(totalsByDate.entries())
+    .map(([date, commitCount]) => ({ date, commitCount }))
+    .sort((a, b) => {
+      if (b.commitCount !== a.commitCount) {
+        return b.commitCount - a.commitCount;
+      }
+      return a.date.localeCompare(b.date);
+    });
+
+  return { commitDays, hasTruncatedRepoData };
+}
+
 async function fetchContributions({ token, username }) {
   const query = `
     query Contributions($login: String!, $from: DateTime!, $to: DateTime!) {
@@ -71,6 +108,17 @@ async function fetchContributions({ token, username }) {
           totalIssueContributions
           totalPullRequestContributions
           totalPullRequestReviewContributions
+          commitContributionsByRepository(maxRepositories: 100) {
+            contributions(first: 100) {
+              nodes {
+                commitCount
+                occurredAt
+              }
+              pageInfo {
+                hasNextPage
+              }
+            }
+          }
         }
       }
       rateLimit {
@@ -130,6 +178,10 @@ async function main() {
     throw new Error("No contributionsCollection returned for this user.");
   }
 
+  const { commitDays, hasTruncatedRepoData } = buildCommitDays(
+    collection.commitContributionsByRepository
+  );
+
   const output = {
     fetchedAt: new Date().toISOString(),
     username,
@@ -141,6 +193,8 @@ async function main() {
       reviews: collection.totalPullRequestReviewContributions,
     },
     calendar: collection.contributionCalendar,
+    commitDays,
+    commitDaysMayBeTruncated: hasTruncatedRepoData,
     rateLimit: data.rateLimit,
   };
 
@@ -150,6 +204,11 @@ async function main() {
   console.log(`Saved contribution data to ${OUTPUT_PATH}`);
   console.log(`User: ${username}`);
   console.log(`Total contributions: ${output.totals.totalContributions}`);
+  if (output.commitDaysMayBeTruncated) {
+    console.warn(
+      "Commit day data may be truncated because one or more repositories returned more than 100 contribution-day nodes."
+    );
+  }
 }
 
 main().catch((error) => {
