@@ -33,8 +33,12 @@ function parseEnv(content) {
 }
 
 async function loadEnv() {
-  const file = await readFile(ENV_PATH, "utf8");
-  return parseEnv(file);
+  try {
+    const file = await readFile(ENV_PATH, "utf8");
+    return parseEnv(file);
+  } catch {
+    return {};
+  }
 }
 
 function isoNow() {
@@ -109,15 +113,15 @@ async function fetchContributions({ token, username }) {
 }
 
 async function main() {
-  const env = await loadEnv();
-  const token = env.GITHUB_TOKEN;
-  const username = env.GITHUB_USERNAME;
+  const fileEnv = await loadEnv();
+  const token = process.env.GITHUB_TOKEN || fileEnv.GITHUB_TOKEN;
+  const username = process.env.GITHUB_USERNAME || fileEnv.GITHUB_USERNAME;
 
   if (!token || token.includes("replace_with_")) {
-    throw new Error("Missing GITHUB_TOKEN in .env");
+    throw new Error("Missing GITHUB_TOKEN in environment or .env");
   }
   if (!username || username.includes("replace_with_")) {
-    throw new Error("Missing GITHUB_USERNAME in .env");
+    throw new Error("Missing GITHUB_USERNAME in environment or .env");
   }
 
   const data = await fetchContributions({ token, username });
