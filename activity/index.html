@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Ankur Taxali — Activity" />
+  <title>Activity | Ankur Taxali</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../styles.css" />
+</head>
+<body>
+  <div class="page-shell">
+    <main class="frame">
+      <header class="topbar">
+        <a class="brand" href="/">Ankur.</a>
+        <nav class="menu" aria-label="Primary">
+          <a href="/">Home</a>
+          <a href="/activity">Activity</a>
+          <a href="/">Projects</a>
+          <a href="/">Experience</a>
+        </nav>
+      </header>
+
+      <section class="activity-page" aria-label="Contribution activity">
+        <div class="activity-head">
+          <h1>GitHub Activity</h1>
+          <p id="activity-summary">Loading contribution data...</p>
+        </div>
+
+        <div class="activity-cards" id="activity-cards" aria-label="Contribution totals"></div>
+
+        <div class="calendar-wrap" id="calendar-wrap" aria-label="Contribution calendar"></div>
+
+        <p class="activity-help" id="activity-help">
+          Data source: GitHub GraphQL API (`contributionsCollection`).
+        </p>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    (async function loadActivity() {
+      const summary = document.getElementById("activity-summary");
+      const cards = document.getElementById("activity-cards");
+      const calendarWrap = document.getElementById("calendar-wrap");
+      const help = document.getElementById("activity-help");
+
+      function formatDate(value) {
+        const date = new Date(value + "T00:00:00");
+        return date.toLocaleDateString(undefined, {
+          year: "numeric",
+          month: "short",
+          day: "numeric",
+        });
+      }
+
+      function monthLabel(value) {
+        const date = new Date(value + "T00:00:00");
+        return date.toLocaleDateString(undefined, { month: "short" });
+      }
+
+      function renderCards(totals) {
+        const cardItems = [
+          ["Total", totals.totalContributions],
+          ["Commits", totals.commits],
+          ["PRs", totals.pullRequests],
+          ["Reviews", totals.reviews],
+          ["Issues", totals.issues],
+        ];
+
+        cards.innerHTML = "";
+        for (const item of cardItems) {
+          const el = document.createElement("article");
+          el.className = "activity-card";
+          el.innerHTML =
+            '<span class="label">' +
+            item[0] +
+            "</span>" +
+            '<strong class="value">' +
+            Number(item[1]).toLocaleString() +
+            "</strong>";
+          cards.appendChild(el);
+        }
+      }
+
+      function renderCalendar(calendar) {
+        const weeks = calendar.weeks || [];
+        if (!weeks.length) {
+          calendarWrap.textContent = "No calendar data found.";
+          return;
+        }
+
+        const grid = document.createElement("div");
+        grid.className = "calendar-grid";
+
+        const monthRow = document.createElement("div");
+        monthRow.className = "calendar-months";
+
+        const dayLabels = document.createElement("div");
+        dayLabels.className = "calendar-days";
+        dayLabels.innerHTML = '<span>Mon</span><span>Wed</span><span>Fri</span>';
+
+        const weeksRow = document.createElement("div");
+        weeksRow.className = "calendar-weeks";
+
+        let lastMonth = "";
+        weeks.forEach(function (week, index) {
+          const firstDay = week.contributionDays && week.contributionDays[0];
+          const month = firstDay ? monthLabel(firstDay.date) : "";
+
+          const monthMark = document.createElement("span");
+          monthMark.className = "month-label";
+          monthMark.style.gridColumn = String(index + 1);
+          if (month && month !== lastMonth) {
+            monthMark.textContent = month;
+            lastMonth = month;
+          }
+          monthRow.appendChild(monthMark);
+
+          const weekCol = document.createElement("div");
+          weekCol.className = "week-col";
+
+          const days = week.contributionDays || [];
+          days.forEach(function (day) {
+            const cell = document.createElement("span");
+            cell.className = "day-cell";
+            cell.style.backgroundColor = day.color || "#ebedf0";
+            cell.title =
+              day.contributionCount +
+              " contribution" +
+              (day.contributionCount === 1 ? "" : "s") +
+              " on " +
+              formatDate(day.date);
+            weekCol.appendChild(cell);
+          });
+
+          weeksRow.appendChild(weekCol);
+        });
+
+        const weekCount = weeks.length;
+        monthRow.style.gridTemplateColumns = "repeat(" + weekCount + ", 10px)";
+        weeksRow.style.gridTemplateColumns = "repeat(" + weekCount + ", 10px)";
+
+        grid.appendChild(monthRow);
+        grid.appendChild(dayLabels);
+        grid.appendChild(weeksRow);
+
+        calendarWrap.innerHTML = "";
+        calendarWrap.appendChild(grid);
+      }
+
+      try {
+        const response = await fetch("./contributions.json", { cache: "no-store" });
+        if (!response.ok) {
+          throw new Error("No contributions.json yet. Run the fetch script first.");
+        }
+
+        const data = await response.json();
+        summary.textContent =
+          "@" +
+          data.username +
+          " has " +
+          Number(data.totals.totalContributions).toLocaleString() +
+          " contributions in the last year.";
+
+        renderCards(data.totals);
+        renderCalendar(data.calendar);
+
+        if (data.fetchedAt) {
+          help.textContent =
+            "Data source: GitHub GraphQL API. Last fetched " +
+            new Date(data.fetchedAt).toLocaleString() +
+            ".";
+        }
+      } catch (error) {
+        summary.textContent = "Data check pending: " + error.message;
+        cards.innerHTML = "";
+        calendarWrap.textContent = "Run the contribution fetch script to populate this page.";
+      }
+    })();
+  </script>
+</body>
+</html>
