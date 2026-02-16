@@ -86,6 +86,14 @@
         }
       }
 
+      function levelForCount(count) {
+        if (count <= 0) return 0;
+        if (count <= 2) return 1;
+        if (count <= 5) return 2;
+        if (count <= 9) return 3;
+        return 4;
+      }
+
       function renderCalendar(calendar) {
         const weeks = calendar.weeks || [];
         if (!weeks.length) {
@@ -126,8 +134,7 @@
           const days = week.contributionDays || [];
           days.forEach(function (day) {
             const cell = document.createElement("span");
-            cell.className = "day-cell";
-            cell.style.backgroundColor = day.color || "#ebedf0";
+            cell.className = "day-cell level-" + levelForCount(day.contributionCount);
             cell.title =
               day.contributionCount +
               " contribution" +
