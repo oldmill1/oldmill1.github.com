@@ -9,6 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://unpkg.com/tippy.js@6/dist/tippy.css" />
   <link rel="stylesheet" href="../styles.css" />
 </head>
 <body>
@@ -43,6 +44,8 @@
     </main>
   </div>
 
+  <script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.min.js"></script>
+  <script src="https://unpkg.com/tippy.js@6/dist/tippy-bundle.umd.min.js"></script>
   <script>
     (async function loadActivity() {
       const summary = document.getElementById("activity-summary");
@@ -50,6 +53,7 @@
       const threeMonthWrap = document.getElementById("calendar-3m-wrap");
       const calendarWrap = document.getElementById("calendar-wrap");
       const help = document.getElementById("activity-help");
+      const tippyInstances = [];
 
       function formatDate(value) {
         const date = new Date(value + "T00:00:00");
@@ -141,12 +145,14 @@
           days.forEach(function (day) {
             const cell = document.createElement("span");
             cell.className = "day-cell level-" + levelForCount(day.contributionCount);
-            cell.title =
+            const tip =
               day.contributionCount +
               " contribution" +
               (day.contributionCount === 1 ? "" : "s") +
               " on " +
               formatDate(day.date);
+            cell.setAttribute("data-tip", tip);
+            cell.setAttribute("aria-label", tip);
             weekCol.appendChild(cell);
           });
 
@@ -163,6 +169,31 @@
 
         container.innerHTML = "";
         container.appendChild(grid);
+      }
+
+      function initTooltips() {
+        tippyInstances.forEach(function (instance) {
+          instance.destroy();
+        });
+        tippyInstances.length = 0;
+
+        if (typeof window.tippy !== "function") {
+          return;
+        }
+
+        const cells = document.querySelectorAll(".day-cell[data-tip]");
+        cells.forEach(function (cell) {
+          const instance = window.tippy(cell, {
+            content: cell.getAttribute("data-tip") || "",
+            delay: [0, 0],
+            duration: [90, 70],
+            placement: "top",
+            theme: "activity",
+            arrow: false,
+            offset: [0, 8],
+          });
+          tippyInstances.push(instance);
+        });
       }
 
       try {
@@ -182,6 +213,7 @@
         renderCards(data.totals);
         renderCalendar(data.calendar, threeMonthWrap, { weeksToShow: 13 });
         renderCalendar(data.calendar, calendarWrap);
+        initTooltips();
 
         if (data.fetchedAt) {
           help.textContent =
