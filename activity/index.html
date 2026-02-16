@@ -33,13 +33,13 @@
 
         <div class="activity-cards" id="activity-cards" aria-label="Contribution totals"></div>
 
-        <section class="top-days-wrap" aria-label="Top commit days in the last year">
+        <section class="top-days-wrap" aria-label="Top contribution days in the last year">
           <div class="top-days-head">
-            <h2>Top Commit Days</h2>
-            <p>Highest commit-count dates over the last 12 months</p>
+            <h2>Top 10 Contribution Days</h2>
+            <p>Highest contribution-count dates over the last 12 months</p>
           </div>
           <ol class="top-days-list" id="top-commit-days">
-            <li class="top-days-empty">Loading commit-day rankings...</li>
+            <li class="top-days-empty">Loading contribution-day rankings...</li>
           </ol>
         </section>
 
@@ -112,28 +112,31 @@
         return 4;
       }
 
-      function renderTopCommitDays(commitDays) {
-        const topFive = (commitDays || [])
+      function renderTopContributionDays(calendar) {
+        const topTen = ((calendar && calendar.weeks) || [])
+          .flatMap(function (week) {
+            return week.contributionDays || [];
+          })
           .filter(function (day) {
-            return Number(day && day.commitCount) > 0 && typeof day.date === "string";
+            return Number(day && day.contributionCount) > 0 && typeof day.date === "string";
           })
           .sort(function (a, b) {
-            if (b.commitCount !== a.commitCount) {
-              return b.commitCount - a.commitCount;
+            if (b.contributionCount !== a.contributionCount) {
+              return b.contributionCount - a.contributionCount;
             }
             return a.date.localeCompare(b.date);
           })
-          .slice(0, 5);
+          .slice(0, 10);
 
         topCommitDays.innerHTML = "";
 
-        if (!topFive.length) {
+        if (!topTen.length) {
           topCommitDays.innerHTML =
-            '<li class="top-days-empty">No commit-day data found. Re-run the fetch script to populate this list.</li>';
+            '<li class="top-days-empty">No contribution-day data found.</li>';
           return;
         }
 
-        topFive.forEach(function (item, index) {
+        topTen.forEach(function (item, index) {
           const li = document.createElement("li");
           li.className = "top-days-item";
           li.innerHTML =
@@ -144,7 +147,7 @@
             formatDate(item.date) +
             "</span>" +
             '<strong class="top-days-count">' +
-            Number(item.commitCount).toLocaleString() +
+            Number(item.contributionCount).toLocaleString() +
             "</strong>";
           topCommitDays.appendChild(li);
         });
@@ -260,7 +263,7 @@
           " contributions in the last year.";
 
         renderCards(data.totals);
-        renderTopCommitDays(data.commitDays);
+        renderTopContributionDays(data.calendar);
         renderCalendar(data.calendar, threeMonthWrap, { weeksToShow: 13 });
         renderCalendar(data.calendar, calendarWrap);
         initTooltips();
@@ -271,14 +274,11 @@
             new Date(data.fetchedAt).toLocaleString() +
             ".";
         }
-        if (data.commitDaysMayBeTruncated) {
-          help.textContent += " Commit-day ranking may be truncated for very high-activity repositories.";
-        }
       } catch (error) {
         summary.textContent = "Data check pending: " + error.message;
         cards.innerHTML = "";
         topCommitDays.innerHTML =
-          '<li class="top-days-empty">Run the contribution fetch script to populate commit-day rankings.</li>';
+          '<li class="top-days-empty">Run the contribution fetch script to populate contribution-day rankings.</li>';
         threeMonthWrap.textContent = "Run the contribution fetch script to populate this page.";
         calendarWrap.textContent = "Run the contribution fetch script to populate this page.";
       }
