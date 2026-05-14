@@ -1,24 +1,18 @@
 {
-  "fetchedAt": "2026-05-13T06:03:49.703Z",
+  "fetchedAt": "2026-05-14T06:03:29.649Z",
   "username": "oldmill1",
   "totals": {
-    "totalContributions": 3678,
-    "commits": 3349,
+    "totalContributions": 3673,
+    "commits": 3345,
     "issues": 2,
-    "pullRequests": 197,
+    "pullRequests": 196,
     "reviews": 79
   },
   "calendar": {
-    "totalContributions": 3678,
+    "totalContributions": 3673,
     "weeks": [
       {
         "contributionDays": [
-          {
-            "contributionCount": 8,
-            "date": "2025-05-13",
-            "color": "#9be9a8",
-            "weekday": 2
-          },
           {
             "contributionCount": 24,
             "date": "2025-05-14",
@@ -2412,10 +2406,16 @@
             "weekday": 2
           },
           {
-            "contributionCount": 0,
+            "contributionCount": 3,
             "date": "2026-05-13",
-            "color": "#ebedf0",
+            "color": "#9be9a8",
             "weekday": 3
+          },
+          {
+            "contributionCount": 0,
+            "date": "2026-05-14",
+            "color": "#ebedf0",
+            "weekday": 4
           }
         ]
       }
@@ -2663,6 +2663,10 @@
       "commitCount": 2
     },
     {
+      "date": "2026-05-13",
+      "commitCount": 2
+    },
+    {
       "date": "2025-07-17",
       "commitCount": 1
     },
@@ -2717,7 +2721,7 @@
   ],
   "commitDaysMayBeTruncated": false,
   "rateLimit": {
-    "remaining": 4978,
-    "resetAt": "2026-05-13T06:23:59Z"
+    "remaining": 4999,
+    "resetAt": "2026-05-14T07:03:28Z"
   }
 }
